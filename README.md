@@ -1,4 +1,4 @@
-#RentTogether partie Web
+# RentTogether partie Web
 
 Rent together est un projet de fin d'étude de 5ème année de Mastère en Mobilité et Objets Connectés de l'ESGI.
 
