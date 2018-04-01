@@ -7,13 +7,13 @@ import Login from './Login';
 class App extends Component {
     render() {
         return (
-                <BrowserRouter>
-                    <Switch>
-                        
-                        <Route path="/dashboard" component={Dashboard} />
-                        <Route path="/" component={Login} />    
-                    </Switch>
-                </BrowserRouter>
+            <BrowserRouter>
+                <Switch>
+                    
+                    <Route path="/dashboard" component={Dashboard} />
+                    <Route path="/" component={Login} />    
+                </Switch>
+            </BrowserRouter>
         );
     }
 }
