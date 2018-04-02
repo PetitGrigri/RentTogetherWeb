@@ -1,91 +1,82 @@
 import React, { Component } from 'react';
-import Password from './Password';
-import InputText from './InputText';
-import { Link } from 'react-router-dom'
+import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon }from 'react-md';
+
 
 class Login extends Component {
+
+    
     constructor(props) {
         super(props);
-        this.handleRegister = this.handleRegister.bind(this);
-        this.handleSignIn   = this.handleSignIn.bind(this);
+        console.log(props);
+        this.history = props.history;
+        this.handleSignIn = this.handleSignIn.bind(this);
         this.handleChange = this.handleChange.bind(this)
     }
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
-        alert('//TODO')
+        this.history.push('/dashboard');
     }
 
-    //Méthode destinée à la gestion de l'enregistrement d'un nouvel utilisateur
-    handleRegister(event) {
-        event.preventDefault();
-        alert('//TODO')
-    }
-
-    handleChange(event) {
-        console.log(event);
-
-        const value = event.target.type === 'checkbox' ? event.target.checked : event.target.value;
+    handleChange(value, target) {
+        console.log(target);
 
         this.setState({
-            [event.target.name] : value
+            [target.name]: value
         });
     }
 
-    render() {
+    render(history) {
         return (
-            <div>
-                <nav>
-                    <div class="nav-wrapper">
-                        <ul class="left hide-on-med-and-down">
-                            <li><Link to="/dashboard">Dashboard</Link></li>
-                            <li><Link to="/">Login</Link></li>
-                        </ul>
-                    </div>
-                </nav>
-                <div className="row">
-                    <div className="col s12 m6 l4 offset-m3 offset-l4">
-                        <div className="card">
-                            <div className="card-image waves-effect waves-block waves-light">
-                                <img className="activator" src="img/banniere.jpg" />
-                                <span className="card-title">RentTogether</span>
-                            </div>
-                            <div className="card-tabs">
-                                <ul className="tabs tabs-fixed-width">
-                                    <li className="tab"><a  className="active" href="#connexion_tab">Connexion</a></li>
-                                    <li className="tab"><a href="#enregistrer_tab">S'enregistrer</a></li>
-                                </ul>
+            <div className="md-grid">
+
+                <Card className="cards__example md-cell md-cell--6 md-cell--8-tablet">
+                    <Media>
+                        <img src="img/banniere.jpg" alt="RentTogether"/>
+                        <MediaOverlay>
+                            <CardTitle title="RentTogether" subtitle="Connexion" />
+                        </MediaOverlay>
+                    </Media>
+                    <CardText>
+                        <form id="conection_form" onSubmit={this.handleSignIn}>
+                            <TextField
+                                id="login"
+                                label="Login"
+                                lineDirection="center"
+                                placeholder="Saisissez votre login"
+                                leftIcon={<FontIcon>person</FontIcon>}
+                                className="md-cell md-cell--12"
+                                onChange={this.handleChange}
+                                />
+
+                            <TextField
+                                id="mail_register"
+                                type="password"
+                                label="Mot de passe"
+                                placeholder="Saisissez votre mot de passe"
+                                leftIcon={<FontIcon>lock</FontIcon>}
+                                className="md-cell md-cell--12"
+                                onChange={this.handleChange}/>
+            
+                            <div className="md-text-center">
+                                <Button raised primary iconEl={<FontIcon>send</FontIcon>} type="submit">Se connecter</Button>
                             </div>
 
-                            <div className="card-content">
-                            
-                                <div className="row" id="connexion_tab">
-                                    <form onSubmit={this.handleSignIn}>
-                                        <InputText name="name_login" icon="icon-male-user-1" label="Identifiant" onChange={this.handleChange}/>
-                                        <Password name="password_login" onChange={this.handleChange}/>
-
-                                        <button className="col s12 btn waves-effect waves-light" type="submit" name="action">Se connecter
-                                            <i className="material-icons right">send</i>
-                                        </button>
-                                    </form> 
-                                </div>   
-                                <div className="row" id="enregistrer_tab">
-                                    <form onSubmit={this.handleRegister}>
-                                        <InputText name="name_register" label="Nom" onChange={this.handleChange}/>
-                                        <InputText name="first_name_register" label="Prénom"onChange={this.handleChange}/>
-                                        <InputText name="mail_register" iconMaterial="mail" label="Mail" onChange={this.handleChange}/>
-                                        <Password name="password_register" onChange={this.handleChange}/>
-
-                                        <button className="col s12 btn waves-effect waves-light" type="submit" name="action" >S'enregistrer
-                                            <i className="material-icons right">send</i>
-                                        </button>
-                                    </form>
-                                </div>    
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                        </form>
+                    </CardText>
+                </Card>
             </div>
+
+
+
+
+
+
+
+
+
+
+
         );
     }
 }
