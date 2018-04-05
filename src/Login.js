@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon }from 'react-md';
+import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon, CircularProgress }from 'react-md';
 
 
 class Login extends Component {
@@ -8,14 +8,22 @@ class Login extends Component {
     constructor(props) {
         super(props);
         console.log(props);
+
         this.history = props.history;
+
+        this.state = {loading:false};
+
         this.handleSignIn = this.handleSignIn.bind(this);
-        this.handleChange = this.handleChange.bind(this)
+        this.handleChange = this.handleChange.bind(this);
     }
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
-        this.history.push('/dashboard');
+        this.setState({
+            loading:true
+        });
+
+        //this.history.push('/dashboard');
     }
 
     handleChange(value, target) {
@@ -59,7 +67,10 @@ class Login extends Component {
                                 onChange={this.handleChange}/>
             
                             <div className="md-text-center">
-                                <Button raised primary iconEl={<FontIcon>send</FontIcon>} type="submit">Se connecter</Button>
+                                <Button raised primary iconBefore={false} 
+                                    iconEl={!this.state.loading?<FontIcon>send</FontIcon>:<CircularProgress />} 
+                                    type="submit">Se connecter</Button>
+                                
                             </div>
 
                         </form>

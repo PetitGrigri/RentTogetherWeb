@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, CardTitle, CardText } from 'react-md';
+import { FontIcon, Card, CardTitle, CardText } from 'react-md';
 import { NavigationDrawer } from 'react-md';
 import NavLink from './NavLink';
 
@@ -24,7 +24,7 @@ const navItems = [{
 }, 
 {
     label: 'Propriétaires',
-    to: '/utilisateurs',
+    to: '/proprietaires',
     exact: true,
     icon: 'web',
 },
@@ -49,10 +49,15 @@ export default class Page1 extends Component {
                         Recapitulatif de l'application
                     </h2>
                     <Card className="md-cell">
-                        <CardTitle title="Nombres de locataires" />
-                        <CardText>
-                            <p>900</p>
+                        <CardText className="md-grid ">
+                            <div className="md-cell md-cell--6">
+                                 <FontIcon>home</FontIcon>
+                            </div>
+                            <div className="md-cell md-cell--6 md-text-right">
+                                764
+                            </div>
                         </CardText>
+                        <CardTitle title="Locataires" />
                     </Card>
                     <Card className="md-cell">
                         <CardTitle title="Nombres de propriétaires" />
