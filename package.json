@@ -15,7 +15,7 @@
     "webfontloader": "^1.6.28"
   },
   "scripts": {
-    "build-css": "node-sass-chokidar --include-path ./node_modules src/ -o src/",
+    "build-css": "node-sass-chokidar --include-path ./node_modules src/scss -o src/css",
     "watch-css": "npm run build-css && npm run build-css -- --watch --recursive",
     "start": "npm-run-all -p watch-css start-js",
     "start-js": "react-scripts start",

@@ -1,30 +1,12 @@
 import React, { Component } from 'react';
-import { Route, Switch, Redirect } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Login from './Login';
-import './App.css';
+import '../css/App.css'
 import Locataires from './Locataires';
 import Proprietaires from './Proprietaires';
 import Locations from './Locations';
-
-//TODO Créer un composant à la place
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route
-      {...rest}
-      render={props =>
-        false ? (
-          <Component {...props} />
-        ) : (
-          <Redirect
-            to={{
-              pathname: "/",
-              state: { from: props.location }
-            }}
-          />
-        )
-      }
-    />
-  );
+import PrivateRoute from './PrivateRoute';
 
 class App extends Component {
     constructor(props) {

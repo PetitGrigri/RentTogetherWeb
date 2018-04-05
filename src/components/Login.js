@@ -38,7 +38,7 @@ class Login extends Component {
         return (
             <div className="md-grid">
 
-                <Card className="cards__example md-cell md-cell--6 md-cell--8-tablet">
+                <Card className="cards__example md-cell md-cell--6 md-cell--8-tablet md-cell--3-offset">
                     <Media>
                         <img src="img/banniere.jpg" alt="RentTogether"/>
                         <MediaOverlay>
