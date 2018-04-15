@@ -11,12 +11,6 @@ import PrivateRoute from './PrivateRoute';
 class App extends Component {
     constructor(props) {
         super(props);
-        this.checkAuthentication = this.checkAuthentication.bind(this);
-    }
-
-    checkAuthentication() {
-        alert('todo');
-        return false;
     }
 
     render() {

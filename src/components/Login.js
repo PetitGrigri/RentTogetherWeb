@@ -1,36 +1,63 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon, CircularProgress }from 'react-md';
-
+import $ from 'jquery';
+import fakeAuth from '../fakeAuth';
 
 class Login extends Component {
 
     
     constructor(props) {
         super(props);
-        console.log(props);
+
+        console.log('Login props : ', props);
 
         this.history = props.history;
 
         this.state = {loading:false};
 
+        this.login = null;
+        this.password = null;
+
         this.handleSignIn = this.handleSignIn.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+
     }
+
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
+
         this.setState({
             loading:true
         });
 
-        //this.history.push('/dashboard');
-    }
+        console.log('login ',this.login.getField().value||'vide');
+        console.log('password ',this.password.getField().value||'vide');
 
-    handleChange(value, target) {
-        console.log(target);
+        
+        var basicAuth = btoa(this.login+':'+this.password);
 
-        this.setState({
-            [target.name]: value
+        console.log(basicAuth);
+
+        var history = this.history;
+
+        //TODO à gérer par redux
+        //remplacer user_14.json par : http://renttogetherapi-api.azurewebsites.net/api/Login'
+        $.ajax({
+            type: 'GET',
+            url: '/json/login.json',
+            headers: {
+                'Authorization': 'Basic ' + basicAuth
+            },
+            success : function(data) {
+                console.log('connecté');
+                console.log(data);
+                fakeAuth.authenticate(() => history.push('/dashboard'));
+                
+            },
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.log('erreur');
+                console.log('//TODO',textStatus, errorThrown );
+            }
         });
     }
 
@@ -38,7 +65,7 @@ class Login extends Component {
         return (
             <div className="md-grid">
 
-                <Card className="cards__example md-cell md-cell--6 md-cell--8-tablet md-cell--3-offset">
+                <Card className="cards__example md-block-centered" style={{width:"400px"}}>
                     <Media>
                         <img src="img/banniere.jpg" alt="RentTogether"/>
                         <MediaOverlay>
@@ -49,26 +76,29 @@ class Login extends Component {
                         <form id="conection_form" onSubmit={this.handleSignIn}>
                             <TextField
                                 id="login"
+                                name="login"
                                 label="Login"
                                 lineDirection="center"
                                 placeholder="Saisissez votre login"
                                 leftIcon={<FontIcon>person</FontIcon>}
                                 className="md-cell md-cell--12"
-                                onChange={this.handleChange}
+                                ref={l => this.login = l}
                                 />
 
                             <TextField
-                                id="mail_register"
+                                id="password"
+                                name="password"
                                 type="password"
                                 label="Mot de passe"
                                 placeholder="Saisissez votre mot de passe"
                                 leftIcon={<FontIcon>lock</FontIcon>}
                                 className="md-cell md-cell--12"
-                                onChange={this.handleChange}/>
+                                ref={p => this.password = p}
+                                />
             
                             <div className="md-text-center">
                                 <Button raised primary iconBefore={false} 
-                                    iconEl={!this.state.loading?<FontIcon>send</FontIcon>:<CircularProgress />} 
+                                    iconEl={!this.state.loading?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login"/>} 
                                     type="submit">Se connecter</Button>
                                 
                             </div>
@@ -77,17 +107,6 @@ class Login extends Component {
                     </CardText>
                 </Card>
             </div>
-
-
-
-
-
-
-
-
-
-
-
         );
     }
 }
