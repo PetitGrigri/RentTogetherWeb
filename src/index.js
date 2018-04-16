@@ -1,10 +1,12 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { createStore } from 'redux'
 import registerServiceWorker from './registerServiceWorker';
 import WebFontLoader from 'webfontloader';
 import './css/index.css';
-import { BrowserRouter } from 'react-router-dom';
 import App from './components/App';
+import rootReducer from './reducers/rootReducer';
+
 
 WebFontLoader.load({
     google: {
@@ -12,5 +14,10 @@ WebFontLoader.load({
     },
 });
 
-ReactDOM.render(<BrowserRouter><App /></BrowserRouter>, document.getElementById('root'));
+const store = createStore(rootReducer);
+
+console.log('Index : ',store);
+
+
+ReactDOM.render(<App store={store} />, document.getElementById('root'));
 registerServiceWorker();

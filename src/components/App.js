@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Route, Switch } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Login from './Login';
@@ -7,27 +7,39 @@ import Locataires from './Locataires';
 import Proprietaires from './Proprietaires';
 import Locations from './Locations';
 import PrivateRoute from './PrivateRoute';
+import { BrowserRouter } from 'react-router-dom';
+import { Provider } from 'react-redux'
+import PropTypes from 'prop-types';
+import { signIn } from '../actions';
 
-class App extends Component {
-    constructor(props) {
-        super(props);
-    }
+const App = ( {store:store } ) => {
 
-    render() {
-        return (
-            <Route
-                render={({ location }) => (
-                    <Switch key={location.key}>
-                        <Route exact path="/" location={location} component={Login} />
-                        <PrivateRoute path="/dashboard" location={location} component={Dashboard}  />
-                        <PrivateRoute path="/locataires" location={location} component={Locataires}  />
-                        <PrivateRoute path="/proprietaires" location={location} component={Proprietaires}  />
-                        <PrivateRoute path="/locations" location={location} component={Locations}  />
-                    </Switch>
-                )}
-            />
-        );
-    }
-}
+    //Test
+    console.log('App : ',store.getState().connection);
+    store.dispatch(signIn());
+    console.log('App Dispatch done: ',store.getState().connection);
+
+    //Render
+    return (
+        <Provider store={store}>
+            <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" component={Login} />
+                    <PrivateRoute path="/dashboard" component={Dashboard} />
+                    <PrivateRoute path="/locataires" component={Locataires}  />
+                    <PrivateRoute path="/proprietaires"  component={Proprietaires}  />
+                    <PrivateRoute path="/locations" component={Locations}  />
+                </Switch>
+            </BrowserRouter>
+        </Provider>)
+};
+
+//définition de la propriété obligatoire
+App.propTypes = {
+    store: PropTypes.object.isRequired
+};
+
+
+
 
 export default App;

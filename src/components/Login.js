@@ -4,28 +4,23 @@ import $ from 'jquery';
 import fakeAuth from '../fakeAuth';
 
 class Login extends Component {
+    //variables destinées à recevoir le contenu du login et du password
+    login =     null;
+    password =  null;
 
-    
     constructor(props) {
+        console.log(props);
         super(props);
-
-        console.log('Login props : ', props);
-
         this.history = props.history;
 
         this.state = {loading:false};
-
-        this.login = null;
-        this.password = null;
-
         this.handleSignIn = this.handleSignIn.bind(this);
-
     }
 
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
-
+        
         this.setState({
             loading:true
         });
@@ -34,17 +29,19 @@ class Login extends Component {
         console.log('password ',this.password.getField().value||'vide');
 
         
+        
         var basicAuth = btoa(this.login+':'+this.password);
 
         console.log(basicAuth);
 
         var history = this.history;
-
+        
         //TODO à gérer par redux
-        //remplacer user_14.json par : http://renttogetherapi-api.azurewebsites.net/api/Login'
+        //remplacer /json/login.json par : http://renttogetherapi-api.azurewebsites.net/api/Login'
         $.ajax({
             type: 'GET',
             url: '/json/login.json',
+            //url :'http://renttogetherapi-api.azurewebsites.net/api/Login',
             headers: {
                 'Authorization': 'Basic ' + basicAuth
             },
@@ -56,7 +53,7 @@ class Login extends Component {
             },
             error: function(jqXHR, textStatus, errorThrown) {
                 console.log('erreur');
-                console.log('//TODO',textStatus, errorThrown );
+                console.log('//TODO',jqXHR, textStatus, errorThrown );
             }
         });
     }

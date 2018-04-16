@@ -4,9 +4,17 @@ import { Route , Redirect} from 'react-router-dom';
 import fakeAuth from '../fakeAuth';
 
 
-//TODO Créer un composant à la place
-const PrivateRoute = ({ component: Component, ...rest }) => (
-    <Route {...rest}
+//TODO Déplacer dans un container
+
+const PrivateRoute = ({ component: Component, ...rest }) => {
+
+
+    console.log(
+        'PrivateRoute', 
+        rest
+    );
+
+    return <Route {...rest}
         render={ props =>
             //pour le moment on empêche la génération d'un composant pour être redirigé sur login 
             fakeAuth.isAuthenticated 
@@ -19,6 +27,6 @@ const PrivateRoute = ({ component: Component, ...rest }) => (
                     />
         }
     />
-);
+};
 
 export default PrivateRoute;
