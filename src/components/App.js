@@ -6,20 +6,13 @@ import '../css/App.css'
 import Locataires from './Locataires';
 import Proprietaires from './Proprietaires';
 import Locations from './Locations';
-import PrivateRoute from './PrivateRoute';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import PropTypes from 'prop-types';
-import { signIn } from '../actions';
+import PrivateRoute from '../containers/PrivateRoute';
+
 
 const App = ( {store:store } ) => {
-
-    //Test
-    console.log('App : ',store.getState().connection);
-    store.dispatch(signIn());
-    console.log('App Dispatch done: ',store.getState().connection);
-
-    //Render
     return (
         <Provider store={store}>
             <BrowserRouter>
@@ -38,8 +31,5 @@ const App = ( {store:store } ) => {
 App.propTypes = {
     store: PropTypes.object.isRequired
 };
-
-
-
 
 export default App;

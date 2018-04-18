@@ -1,23 +1,16 @@
 // eslint-disable-next-line 
 import React, { Component } from 'react';
 import { Route , Redirect} from 'react-router-dom';
-import fakeAuth from '../fakeAuth';
+import { connect } from 'react-redux'
 
-
-//TODO Déplacer dans un container
-
-const PrivateRoute = ({ component: Component, ...rest }) => {
-
-
-    console.log(
-        'PrivateRoute', 
-        rest
-    );
-
+/**
+ * Containers permettant de rendre 
+ * @param {object} param0 
+ */
+const PrivateRoute = ({ component: Component, isAuthenticated, ...rest }) => {
     return <Route {...rest}
         render={ props =>
-            //pour le moment on empêche la génération d'un composant pour être redirigé sur login 
-            fakeAuth.isAuthenticated 
+            isAuthenticated
                 ?   <Component {...props} />
                 :   <Redirect 
                         to={{
@@ -29,4 +22,8 @@ const PrivateRoute = ({ component: Component, ...rest }) => {
     />
 };
 
-export default PrivateRoute;
+const mapStateToProps = state => ({
+    isAuthenticated : state.connection.isAuthenticated
+})
+
+ export default  connect(mapStateToProps)(PrivateRoute);

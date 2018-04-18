@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon, CircularProgress }from 'react-md';
-import $ from 'jquery';
-import fakeAuth from '../fakeAuth';
+import { connect } from 'react-redux'
+import { handleSignIn } from '../actions/action.js'
+
 
 class Login extends Component {
     //variables destinées à recevoir le contenu du login et du password
@@ -9,56 +10,22 @@ class Login extends Component {
     password =  null;
 
     constructor(props) {
-        console.log(props);
         super(props);
-        this.history = props.history;
-
-        this.state = {loading:false};
         this.handleSignIn = this.handleSignIn.bind(this);
     }
 
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        if (this.props.isAuthenticated) {
+            this.props.history.push('/dashboard');
+        }
+    }
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
-        
-        this.setState({
-            loading:true
-        });
-
-        console.log('login ',this.login.getField().value||'vide');
-        console.log('password ',this.password.getField().value||'vide');
-
-        
-        
-        var basicAuth = btoa(this.login+':'+this.password);
-
-        console.log(basicAuth);
-
-        var history = this.history;
-        
-        //TODO à gérer par redux
-        //remplacer /json/login.json par : http://renttogetherapi-api.azurewebsites.net/api/Login'
-        $.ajax({
-            type: 'GET',
-            url: '/json/login.json',
-            //url :'http://renttogetherapi-api.azurewebsites.net/api/Login',
-            headers: {
-                'Authorization': 'Basic ' + basicAuth
-            },
-            success : function(data) {
-                console.log('connecté');
-                console.log(data);
-                fakeAuth.authenticate(() => history.push('/dashboard'));
-                
-            },
-            error: function(jqXHR, textStatus, errorThrown) {
-                console.log('erreur');
-                console.log('//TODO',jqXHR, textStatus, errorThrown );
-            }
-        });
+        this.props.hangleSignIn(this.login.getField().value, this.password.getField().value);
     }
 
-    render(history) {
+    render() {
         return (
             <div className="md-grid">
 
@@ -95,7 +62,7 @@ class Login extends Component {
             
                             <div className="md-text-center">
                                 <Button raised primary iconBefore={false} 
-                                    iconEl={!this.state.loading?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login"/>} 
+                                    iconEl={!this.props.loadingSignIn?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login"/>} 
                                     type="submit">Se connecter</Button>
                                 
                             </div>
@@ -108,4 +75,16 @@ class Login extends Component {
     }
 }
 
-export default Login;
+const mapStateToProps = state => ({
+    loadingSignIn: state.connection.loadingSignIn, 
+    isAuthenticated: state.connection.isAuthenticated
+})
+
+const mapDispatchToProps = dispatch => ({
+    hangleSignIn: (login, password) => dispatch(handleSignIn(login, password))
+})
+  
+export default connect(
+    mapStateToProps,
+    mapDispatchToProps
+)(Login)

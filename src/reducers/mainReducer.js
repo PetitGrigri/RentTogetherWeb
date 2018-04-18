@@ -1,8 +1,8 @@
 import { combineReducers } from "redux";
 import connection from "./connection";
 
-const rootReducer = combineReducers({
+const mainReducer = combineReducers({
     connection
 });
 
-export default rootReducer;
+export default mainReducer;

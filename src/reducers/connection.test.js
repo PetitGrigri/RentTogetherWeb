@@ -1,6 +1,6 @@
 import connection from "./connection";
 import deepFreeze from 'deep-freeze';
-import { REQUEST_SIGN_IN, SIGN_IN_ERROR, SIGN_IN_SUCESS }from '../actions/index.js'
+import { SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS }from '../actions/action.js'
 
 test('Default state', () => {
 

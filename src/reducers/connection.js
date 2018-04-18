@@ -1,19 +1,20 @@
-import {REQUEST_SIGN_IN, SIGN_IN_ERROR, SIGN_IN_SUCESS }from '../actions/index.js'
+import {SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS }from '../actions/action.js'
+
 
 //le state initial
 const initialConnectionState = {
-    loadingSignIn :     false,
-    isAuthenticated :   false,
-    firstName :         "",
-    lastName :          "",
-    message:            "",
+    loadingSignIn : false,
+    isAuthenticated : false,
+    firstName : "",
+    lastName : "",
+    message : "",
 }
 
 const connection = (state = initialConnectionState, action) => {
 
     switch(action.type) {
         //Connexion de l'utilisateur
-        case REQUEST_SIGN_IN: 
+        case SIGN_IN_REQUEST: 
             return Object.assign({}, state, {
                 loadingSignIn : true
             });
@@ -22,9 +23,9 @@ const connection = (state = initialConnectionState, action) => {
         case  SIGN_IN_SUCESS: 
             return Object.assign({}, state, {
                 loadingSignIn : false,
-                connected:      true,
-                firstName :     action.firstName,
-                lastName :      action.lastName
+                isAuthenticated : true,
+                firstName : action.firstName,
+                lastName : action.lastName
             });
 
         //erreur lors de la connexion
