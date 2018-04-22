@@ -8,8 +8,7 @@ import App from './components/App';
 import mainReducer from './reducers/mainReducer';
 
 import thunkMiddleware from 'redux-thunk'
-//import { createLogger } from 'redux-logger'
-
+import logger from 'redux-logger';
 
 WebFontLoader.load({
     google: {
@@ -21,18 +20,10 @@ WebFontLoader.load({
 const store = createStore(
     mainReducer,
     applyMiddleware(
-        thunkMiddleware
+        thunkMiddleware,    //permet d'avoir de propager de dispatcher des fonctions
+        logger,             //permet d'avoir un reporting de ce qu'il se passe 
     )
 );
-
- //Debug
- /*
-    console.log('App : ',store.getState().connection);
-    store.dispatch(signIn());
-    console.log('App Dispatch done: ',store.getState().connection);
-    store.dispatch(handleSignInSuccess());
-    console.log('App handleSignInSuccess done: ',store.getState().connection);
-*/
 
 //rendu de l'application
 ReactDOM.render(<App store={store} />, document.getElementById('root'));

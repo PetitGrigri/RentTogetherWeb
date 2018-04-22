@@ -1,0 +1,29 @@
+import React, { Component } from 'react';
+import '../css/AlertMaterialize.css';
+import PropTypes from 'prop-types';
+import { FontIcon } from 'react-md';
+
+class AlertMaterialize extends Component {
+
+    handleClose = () => {
+        this.props.handleClose();
+    }
+    render() {
+        return (
+            <div className="alert error">
+                {this.props.message}
+                <button type="button" className="close" onClick={this.handleClose}>
+                    <FontIcon inherit>close</FontIcon>
+                </button>
+            </div>
+        );
+    }
+}
+
+//définition de la propriété obligatoire
+AlertMaterialize.propTypes = {
+    message: PropTypes.string.isRequired
+};
+
+
+export default AlertMaterialize;

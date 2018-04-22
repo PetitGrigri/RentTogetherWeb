@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, Redirect } from 'react-router-dom';
 import Dashboard from './Dashboard';
 import Login from './Login';
 import '../css/App.css'
@@ -22,6 +22,7 @@ const App = ( {store:store } ) => {
                     <PrivateRoute path="/locataires" component={Locataires}  />
                     <PrivateRoute path="/proprietaires"  component={Proprietaires}  />
                     <PrivateRoute path="/locations" component={Locations}  />
+                    <Redirect to="/"/>
                 </Switch>
             </BrowserRouter>
         </Provider>)

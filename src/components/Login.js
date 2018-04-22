@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon, CircularProgress }from 'react-md';
 import { connect } from 'react-redux'
-import { handleSignIn } from '../actions/action.js'
+import { handleSignIn, handleHideError } from '../actions/action.js'
+import AlertMaterialize from './AlertMaterialize.js';
 
 
 class Login extends Component {
@@ -12,6 +13,7 @@ class Login extends Component {
     constructor(props) {
         super(props);
         this.handleSignIn = this.handleSignIn.bind(this);
+        this.handleHideError = this.handleHideError.bind(this);
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -23,6 +25,10 @@ class Login extends Component {
     handleSignIn(event) {
         event.preventDefault();
         this.props.hangleSignIn(this.login.getField().value, this.password.getField().value);
+    }
+
+    handleHideError () {
+        this.props.handleHideError();
     }
 
     render() {
@@ -38,6 +44,7 @@ class Login extends Component {
                     </Media>
                     <CardText>
                         <form id="conection_form" onSubmit={this.handleSignIn}>
+                            { this.props.message?<AlertMaterialize message={this.props.message} handleClose={this.handleHideError}>test</AlertMaterialize>:null}
                             <TextField
                                 id="login"
                                 name="login"
@@ -47,7 +54,7 @@ class Login extends Component {
                                 leftIcon={<FontIcon>person</FontIcon>}
                                 className="md-cell md-cell--12"
                                 ref={l => this.login = l}
-                                />
+                            />
 
                             <TextField
                                 id="password"
@@ -58,12 +65,15 @@ class Login extends Component {
                                 leftIcon={<FontIcon>lock</FontIcon>}
                                 className="md-cell md-cell--12"
                                 ref={p => this.password = p}
-                                />
+                            />
             
                             <div className="md-text-center">
+
                                 <Button raised primary iconBefore={false} 
-                                    iconEl={!this.props.loadingSignIn?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login"/>} 
-                                    type="submit">Se connecter</Button>
+                                    iconEl={!this.props.loadingSignIn?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login" />}
+                                    type="submit" >
+                                    Se connecter
+                                </Button>
                                 
                             </div>
 
@@ -77,11 +87,13 @@ class Login extends Component {
 
 const mapStateToProps = state => ({
     loadingSignIn: state.connection.loadingSignIn, 
-    isAuthenticated: state.connection.isAuthenticated
+    isAuthenticated: state.connection.isAuthenticated, 
+    message: state.connection.message,
 })
 
 const mapDispatchToProps = dispatch => ({
-    hangleSignIn: (login, password) => dispatch(handleSignIn(login, password))
+    hangleSignIn: (login, password) => dispatch(handleSignIn(login, password)),
+    handleHideError: () => dispatch(handleHideError())
 })
   
 export default connect(

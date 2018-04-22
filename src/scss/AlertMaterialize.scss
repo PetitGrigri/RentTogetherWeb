@@ -1,0 +1,47 @@
+@import 'globals';
+@include react-md-everything;
+
+@mixin border-radius($radius) {
+	border-radius: $radius;
+	-webkit-border-radius: $radius;
+	-moz-border-radius: $radius;
+}
+
+.alert {
+    padding: 0.75rem 1.25rem;
+    padding-right: 3rem;
+    position: relative;
+    font-size:1;
+    text-align:justify; 
+    @include md-box-shadow(1);
+}
+
+.alert.error {
+    border: O;
+    background: $md-red-500;
+    color: white;
+    border-radius: (2px);
+    font-weight: 500;
+}
+
+.alert .close {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0.75rem 0.25rem;
+    padding:1px;
+    color: $md-red-900;
+    background:transparent;
+    border: 0px;
+
+}
+.alert .close:hover {
+    color: $md-red-100;
+}
+.alert .close i {
+    line-height: 1rem;
+    font-size: 1rem;
+}
+
+
+
