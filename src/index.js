@@ -6,7 +6,6 @@ import WebFontLoader from 'webfontloader';
 import './css/index.css';
 import App from './components/App';
 import mainReducer from './reducers/mainReducer';
-
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger';
 

@@ -1,11 +1,14 @@
 import React, { Component } from 'react';
+import AdminTemplate from './AdminTemplate';
 
 class Locations extends Component {
     render() {
         return (
-            <div>
-                Locations
-            </div>
+            <AdminTemplate >
+                <div>
+                    Locations
+                </div>
+            </AdminTemplate>
         );
     }
 }

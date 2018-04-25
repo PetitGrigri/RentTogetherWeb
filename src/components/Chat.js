@@ -1,16 +1,16 @@
 import React, { Component } from 'react';
 import AdminTemplate from './AdminTemplate';
 
-class Proprietaires extends Component {
+class Chat extends Component {
     render() {
         return (
             <AdminTemplate>
                 <div>
-                    Propriétaires
+                    Chat
                 </div>
             </AdminTemplate>
         );
     }
 }
 
-export default Proprietaires;
+export default Chat;

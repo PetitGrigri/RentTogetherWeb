@@ -10,6 +10,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux'
 import PropTypes from 'prop-types';
 import PrivateRoute from '../containers/PrivateRoute';
+import Chat from './Chat';
 
 
 const App = ( {store:store } ) => {
@@ -22,6 +23,7 @@ const App = ( {store:store } ) => {
                     <PrivateRoute path="/locataires" component={Locataires}  />
                     <PrivateRoute path="/proprietaires"  component={Proprietaires}  />
                     <PrivateRoute path="/locations" component={Locations}  />
+                    <PrivateRoute path="/chat" component={Chat}  />
                     <Redirect to="/"/>
                 </Switch>
             </BrowserRouter>
