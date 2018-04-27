@@ -42,13 +42,13 @@ const connection = (state = initialConnectionState, action) => {
                 loadingSignIn : false,
                 isAuthenticated: false,
                 message: action.message,
-        });
+            });
 
         //erreur lors de la connexion
         case  SIGN_IN_HIDE_ERROR : 
             return Object.assign({}, {
                 message: ""
-        });
+            });
 
         //autres 
         default : 

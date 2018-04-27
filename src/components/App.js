@@ -11,6 +11,7 @@ import { Provider } from 'react-redux'
 import PropTypes from 'prop-types';
 import PrivateRoute from '../containers/PrivateRoute';
 import Chat from './Chat';
+import GestionAdministrateurs from './GestionAdministrateurs';
 
 
 const App = ( {store:store } ) => {
@@ -24,6 +25,7 @@ const App = ( {store:store } ) => {
                     <PrivateRoute path="/proprietaires"  component={Proprietaires}  />
                     <PrivateRoute path="/locations" component={Locations}  />
                     <PrivateRoute path="/chat" component={Chat}  />
+                    <PrivateRoute path="/administrateurs" component={GestionAdministrateurs}  />
                     <Redirect to="/"/>
                 </Switch>
             </BrowserRouter>

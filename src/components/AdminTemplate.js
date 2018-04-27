@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavigationDrawer, Toolbar, Drawer } from 'react-md';
+import { NavigationDrawer } from 'react-md';
 import NavLink from './NavLink';
 import UserActionMenu from './UserActionMenu';
 import { withRouter } from 'react-router'
@@ -34,6 +34,13 @@ const navItems = [
     icon: 'business',
 },
 {
+    label: 'Administrateurs',
+    title: 'Gestions des administrateurs',
+    to: '/administrateurs',
+    exact: true,
+    icon: 'build',
+},
+{
     label: 'Chat',
     title: 'Chat',
     to: '/chat',
@@ -44,7 +51,7 @@ const navItems = [
 class AdminTemplate extends Component {
     constructor(props){
         super(props);
-        this.currentItem = navItems.filter(item => item.to == this.props.location.pathname ? true : false);
+        this.currentItem = navItems.filter(item => item.to === this.props.location.pathname ? true : false);
     }
     render() {
         return (

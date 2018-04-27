@@ -7,7 +7,7 @@ class Locataires extends Component {
             <AdminTemplate>
                 <div>
                     Locataires
-                    </div>
+                </div>
             </AdminTemplate>
         );
     }
