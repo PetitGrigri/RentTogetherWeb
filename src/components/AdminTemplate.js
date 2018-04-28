@@ -51,13 +51,19 @@ const navItems = [
 class AdminTemplate extends Component {
     constructor(props){
         super(props);
-        this.currentItem = navItems.filter(item => item.to === this.props.location.pathname ? true : false);
+        this.currentItem = navItems.filter(item => item.to === this.props.location.pathname ? true : false)[0];
     }
+
+    componentDidMount() {
+        document.title = this.currentItem.title;
+    }
+
+
     render() {
         return (
             <NavigationDrawer
                 drawerTitle="Menu"
-                toolbarTitle={<h1>{this.currentItem[0].title}</h1>}
+                toolbarTitle={<h1>{this.currentItem.title}</h1>}
                 defaultVisible={false}
                 navItems={navItems.map(props => <NavLink {...props} key={props.to} />)}
                 desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
