@@ -92,8 +92,7 @@ export const handleGetAdministrators = () => {
 //TODO check la vérification du token de l'utilisateur connecté
 
         api.getAdministrators(
-            //getState().connection.user.token,
-            'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJmZ3Jpc2VsbGVzQGhvdG1haWwuZnIiLCJqdGkiOiIxZjU0NWIzMS1mN2I3LTQzOTktYjVhNy1hODQ4Y2M5NmEzNjciLCJuYmYiOjE1MjQ5OTc0MDMsImV4cCI6MTUyNTA4MzgwM30.oYU7aOl23hlGvkZJ6tteDBnnrQs4htPpQOCHKvz15Oc',
+            getState().connection.user.token,
             (data) => { dispatch(handleGetAdministratorSuccess(data)) },
             (error) => { dispatch(handleGetAdministratorError(error)) }
         )

@@ -98,7 +98,7 @@ class GestionAdministrateurs extends Component {
         } else{
             usersRows = 
                 <TableRow>
-                    <TableColumn colSpan={5}>
+                    <TableColumn colSpan={7} style={{"height":"100px"}}>
                     <CircularProgress id="loading_users" /></TableColumn>
                 </TableRow>
         } 
