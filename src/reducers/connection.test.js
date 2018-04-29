@@ -1,6 +1,6 @@
 import connection from "./connection";
 import deepFreeze from 'deep-freeze';
-import { SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS }from '../actions/action.js'
+import { SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS } from '../actions/connection.js'
 
 test('Default state', () => {
     //état du state après un accès au state sans aucune action

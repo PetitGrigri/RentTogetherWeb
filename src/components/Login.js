@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, FontIcon, CircularProgress }from 'react-md';
 import { connect } from 'react-redux'
-import { handleSignIn, handleHideError } from '../actions/action.js'
+import { handleSignIn, handleHideError } from '../actions/connection.js'
 import AlertMaterialize from './AlertMaterialize.js';
 
 

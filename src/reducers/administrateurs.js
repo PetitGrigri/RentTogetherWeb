@@ -2,7 +2,7 @@ import {
     USER_ADD_ADMINISTRATOR_REQUEST, 
     USER_ADD_ADMINISTRATOR_SUCCESS, 
     USER_ADD_ADMINISTRATOR_ERROR, 
-    USER_ADD_ADMINISTRATOR_HIDE_ERROR } from '../actions/action.js'
+    USER_ADD_ADMINISTRATOR_HIDE_ERROR } from '../actions/administrateurs'
 
 
 //le state initial

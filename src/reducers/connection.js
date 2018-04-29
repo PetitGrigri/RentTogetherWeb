@@ -1,4 +1,4 @@
-import {SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS, SIGN_IN_HIDE_ERROR }from '../actions/action.js'
+import { SIGN_IN_REQUEST, SIGN_IN_ERROR, SIGN_IN_SUCESS, SIGN_IN_HIDE_ERROR }from '../actions/connection.js'
 
 
 //le state initial
