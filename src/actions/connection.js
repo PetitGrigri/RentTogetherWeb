@@ -1,4 +1,4 @@
-import api from '../api/api.js';
+import * as api from '../api/api.js';
 
 //Types d'actions destinées à la connexion
 export const 
@@ -9,7 +9,6 @@ export const
 
 /**
  * Méthode permettant de se connecter et d'obtenir des informations sur l'utilisateur
- * 
  * @param {string} login 
  * @param {string} password 
  */
@@ -57,7 +56,7 @@ export const handleSignInError = (error) => {
 };
 
 /**
- * Méthode permettat de retourner l'action nécessaire à redux pour informer qu'il n'y a plus de chargement en cours
+ * Méthode permettant de retourner l'action nécessaire à redux pour informer qu'il n'y a plus de chargement en cours
  * @param {string} error le message d'erreur
  */
 export const handleHideError = () => {

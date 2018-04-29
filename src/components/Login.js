@@ -21,6 +21,7 @@ class Login extends Component {
             this.props.history.push('/dashboard');
         }
     }
+    
     //Méthode destinée à la gestion de la connexion
     handleSignIn(event) {
         event.preventDefault();
@@ -44,7 +45,8 @@ class Login extends Component {
                     </Media>
                     <CardText>
                         <form id="conection_form" onSubmit={this.handleSignIn}>
-                            { this.props.message?<AlertMaterialize message={this.props.message} handleClose={this.handleHideError}>test</AlertMaterialize>:null}
+                            { this.props.message?<AlertMaterialize message={this.props.message} handleClose={this.handleHideError} error />:null}
+
                             <TextField
                                 id="login"
                                 name="login"
@@ -68,13 +70,13 @@ class Login extends Component {
                             />
             
                             <div className="md-text-center">
-
-                                <Button raised primary iconBefore={false} 
-                                    iconEl={!this.props.loadingSignIn?<FontIcon>send</FontIcon>:<CircularProgress id="circular_login" />}
-                                    type="submit" >
-                                    Se connecter
-                                </Button>
-                                
+                                { this.props.loadingSignIn
+                                    ? <CircularProgress id="circular_login" />
+                                    : <Button raised primary iconBefore={false} 
+                                        iconEl={<FontIcon>input</FontIcon>}
+                                        type="submit" >
+                                        Se connecter
+                                    </Button> }
                             </div>
 
                         </form>

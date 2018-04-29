@@ -13,15 +13,10 @@
     position: relative;
     font-size:1;
     text-align:justify; 
-    @include md-box-shadow(1);
-}
-
-.alert.error {
     border: O;
-    background: $md-red-500;
-    color: white;
     border-radius: (2px);
     font-weight: 500;
+    @include md-box-shadow(1);
 }
 
 .alert .close {
@@ -30,18 +25,43 @@
     right: 0;
     margin: 0.75rem 0.25rem;
     padding:1px;
-    color: $md-red-900;
     background:transparent;
     border: 0px;
+}
 
-}
-.alert .close:hover {
-    color: $md-red-100;
-}
 .alert .close i {
     line-height: 1rem;
     font-size: 1rem;
 }
+
+/** Variation de couleurs destinées aux AlertMaterialize */
+.alert.error {
+    background: $md-red-500;
+    color: white;
+}
+.alert.success {
+    background: $md-teal-a-700;
+    color: white;
+}
+
+/** Variation de couleurs destinées aux bouton de fermeture des AlertMaterialize */
+.alert.error .close {
+    color: $md-red-900;
+}
+.alert.success .close {
+    color: $md-teal-800;
+}
+
+
+
+
+.alert.error .close:hover {
+    color: $md-red-100;
+}
+.alert.success .close:hover {
+    color: $md-teal-100;
+}
+
 
 
 

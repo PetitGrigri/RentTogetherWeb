@@ -19,6 +19,7 @@ const App = ( {store:store } ) => {
         <Provider store={store}>
             <BrowserRouter>
                 <Switch>
+                    <Route path="/" component={GestionAdministrateurs}  />
                     <Route exact path="/" component={Login} />
                     <PrivateRoute path="/dashboard" component={Dashboard} />
                     <PrivateRoute path="/locataires" component={Locataires}  />

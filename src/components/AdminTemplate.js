@@ -6,6 +6,13 @@ import { withRouter } from 'react-router'
 
 const navItems = [
 {
+    label: '',
+    title: '',
+    to: '/',
+    exact: true,
+    icon: '',
+}, 
+{
     label: 'Dashboard',
     title: 'Récapitulatif de l\'application',
     to: '/dashboard',

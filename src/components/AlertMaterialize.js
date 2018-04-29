@@ -9,9 +9,12 @@ class AlertMaterialize extends Component {
         this.props.handleClose();
     }
     render() {
+        let className = "alert " + (this.props.success ? "success" : "error");
+        console.log(className)
         return (
-            <div className="alert error">
+            <div className={className}>
                 {this.props.message}
+                {this.props.children}
                 <button type="button" className="close" onClick={this.handleClose}>
                     <FontIcon inherit>close</FontIcon>
                 </button>
