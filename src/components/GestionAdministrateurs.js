@@ -41,8 +41,6 @@ class GestionAdministrateurs extends Component {
     }
 
     componentDidMount() {
-        console.log('componentDidMount');
-        console.log(this.props.handleGetAdministrators);
         this.props.handleGetAdministrators();
     }
 
@@ -66,7 +64,6 @@ class GestionAdministrateurs extends Component {
     }
 
     deleteAdministrator(id) {
-        console.log(id);
         this.props.handleDeleteAdministrator(id);
     }
 
