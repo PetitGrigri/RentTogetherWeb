@@ -4,10 +4,12 @@ import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, Tab
 import { 
     handleCreateAdministrator, 
     handleCreateAdministratorError, 
-    handleHideCreateAdministratorError, 
-    handleHideCreateAdministratorSuccess, 
-    handleGetAdministrators } from "../actions/administrateurs";
-
+    handleHideMessages,
+    handleHideMessagesPopup,
+    handleGetAdministrators, 
+    handleDeleteAdministrator
+} from "../actions/administrateurs";
+import "../css/GestionAdministrateurs.css";
 import { connect } from 'react-redux'
 import AlertMaterialize from './AlertMaterialize';
 
@@ -18,6 +20,7 @@ class GestionAdministrateurs extends Component {
         this.handleSubmit = this.handleSubmit.bind(this);
         this.openDialog = this.openDialog.bind(this);
         this.closeDialog = this.closeDialog.bind(this);
+        this.deleteAdministrator = this.deleteAdministrator.bind(this);
 
         this.state={
             openDialog: false
@@ -58,7 +61,13 @@ class GestionAdministrateurs extends Component {
     closeDialog() {
         this.setState({
             openDialog: false
-        })
+        });
+        this.props.handleHideMessagesPopup();
+    }
+
+    deleteAdministrator(id) {
+        console.log(id);
+        this.props.handleDeleteAdministrator(id);
     }
 
     render() {
@@ -74,38 +83,37 @@ class GestionAdministrateurs extends Component {
             hour12: false
         };
 
+        //todo transformmer en composant
+        usersRows = (this.props.users).map((user) => {
+            let date = Date.parse(user.createDate);
+            let dateFormat = Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
 
-        if (this.props.users) {
-            usersRows = (this.props.users).map((user) => {
-                let date = Date.parse(user.createDate);
-                let dateFormat = Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
-
-                return (
-                    <TableRow key={user.userId}>
-                        <TableColumn>{user.userId}</TableColumn>
-                        <TableColumn>{user.firstName}</TableColumn>
-                        <TableColumn>{user.lastName}</TableColumn>
-                        <TableColumn>{user.phoneNumber}</TableColumn>
-                        <TableColumn>{user.email}</TableColumn>
-                        <TableColumn>{dateFormat}</TableColumn>
-                        <TableColumn>
-                            <Button icon primary>delete</Button>
-                            <Button icon primary>refresh</Button>
-                            <Button icon primary>mode_edit</Button>
-                        </TableColumn>
-                    </TableRow>)
-            });
-        } else{
-            usersRows = 
-                <TableRow>
-                    <TableColumn colSpan={7} style={{"height":"100px"}}>
-                    <CircularProgress id="loading_users" /></TableColumn>
-                </TableRow>
-        } 
+            return (
+                <TableRow key={user.userId}>
+                    <TableColumn>{user.userId}</TableColumn>
+                    <TableColumn>{user.firstName}</TableColumn>
+                    <TableColumn>{user.lastName}</TableColumn>
+                    <TableColumn>{user.phoneNumber}</TableColumn>
+                    <TableColumn>{user.email}</TableColumn>
+                    <TableColumn>{dateFormat}</TableColumn>
+                    <TableColumn>
+                        { this.props.loadingDeleteId !== user.userId 
+                            ? <Button icon primary onClick={()=>this.deleteAdministrator(user.userId)}>delete</Button>
+                            : <CircularProgress id="loading_delete" className="circular-float-icon" centered={false} /> }
+                        <Button icon primary>refresh</Button>
+                        <Button icon primary>mode_edit</Button>
+                    </TableColumn>
+                </TableRow>)
+        });
 
         return (
             <AdminTemplate>
-                
+                { this.props.messageError
+                    ? <AlertMaterialize message={this.props.messageError} handleClose={this.props.handleHideMessages} error />
+                    : null }
+                { this.props.messageSuccess
+                    ? <AlertMaterialize message={this.props.messageSuccess} handleClose={this.props.handleHideMessages} success />
+                    : null }
                 <Button floating primary fixed fixedPosition="br" onClick={this.openDialog}>add</Button>
 
                 <Grid>
@@ -114,22 +122,25 @@ class GestionAdministrateurs extends Component {
                             <CardTitle title="Liste des administrateurs" subtitle="Faites pas les cons !" />
                             
                             <CardText>
-                                <DataTable baseId="simple-selectable-table">
-                                    <TableHeader>
-                                        <TableRow>
-                                            <TableColumn>#</TableColumn>
-                                            <TableColumn>Nom</TableColumn>
-                                            <TableColumn>Prénom</TableColumn>
-                                            <TableColumn>Téléphone</TableColumn>
-                                            <TableColumn>Email</TableColumn>
-                                            <TableColumn>Date Création</TableColumn>
-                                            <TableColumn>Actions</TableColumn>
-                                        </TableRow>
-                                    </TableHeader>
-                                    <TableBody>
-                                        {usersRows}
-                                    </TableBody>
-                                </DataTable>
+                                { this.props.loadingGet == true
+                                    ?   <CircularProgress />
+                                    :   <DataTable baseId="simple-selectable-table">
+                                            <TableHeader>
+                                                <TableRow>
+                                                    <TableColumn>#</TableColumn>
+                                                    <TableColumn>Nom</TableColumn>
+                                                    <TableColumn>Prénom</TableColumn>
+                                                    <TableColumn>Téléphone</TableColumn>
+                                                    <TableColumn>Email</TableColumn>
+                                                    <TableColumn>Date Création</TableColumn>
+                                                    <TableColumn>Actions</TableColumn>
+                                                </TableRow>
+                                            </TableHeader>
+                                            <TableBody>
+                                                {usersRows}
+                                            </TableBody>
+                                        </DataTable>
+                                }
                             </CardText>
                         </Card>
                     </Cell>
@@ -146,11 +157,11 @@ class GestionAdministrateurs extends Component {
                     onHide={this.closeDialog}
                     >
 
-                    { this.props.messageError
-                        ? <AlertMaterialize message={this.props.messageError} handleClose={this.props.handleHideError} error />
+                    { this.props.messagePopupError
+                        ? <AlertMaterialize message={this.props.messagePopupError} handleClose={this.props.handleHideMessagesPopup} error />
                         : null }
-                    { this.props.messageSuccess
-                        ? <AlertMaterialize message={this.props.messageSuccess} handleClose={this.props.handleHideSuccess} success />
+                    { this.props.messagePopupSuccess
+                        ? <AlertMaterialize message={this.props.messagePopupSuccess} handleClose={this.props.handleHideMessagesPopup} success />
                         : null }
                     <form className="md-grid text-fields__application" onSubmit={this.handleSubmit}>
                         <TextField
@@ -241,24 +252,28 @@ class GestionAdministrateurs extends Component {
                         </Grid>
                     </form>
                 </DialogContainer>
-
             </AdminTemplate>
         );
     }
 }
 
 const mapStateToProps = state => ({
-    loadingAdd:     state.administrateurs.loadingAdd, 
-    messageError:   state.administrateurs.message_error,
-    messageSuccess: state.administrateurs.message_success,
-    users:          state.administrateurs.users,
+    loadingAdd:             state.administrateurs.loadingAdd, 
+    loadingGet:             state.administrateurs.loadingGet, 
+    loadingDeleteId:        state.administrateurs.loadingDeleteId,
+    messageError:           state.administrateurs.message_error,
+    messageSuccess:         state.administrateurs.message_success,
+    messagePopupError:      state.administrateurs.message_popup_error,
+    messagePopupSuccess:    state.administrateurs.message_popup_success,
+    users:                  state.administrateurs.users,
 })
 
 const mapDispatchToProps = dispatch => ({
-    handleCreateAdministrator: (dataFormulaire) => dispatch(handleCreateAdministrator(dataFormulaire)),
-    handleHideError: () => dispatch(handleHideCreateAdministratorError()),
-    handleHideSuccess: () => dispatch(handleHideCreateAdministratorSuccess()),
-    handleGetAdministrators: () => dispatch(handleGetAdministrators()),
+    handleGetAdministrators:    () => dispatch(handleGetAdministrators()),
+    handleCreateAdministrator:  (dataFormulaire) => dispatch(handleCreateAdministrator(dataFormulaire)),
+    handleDeleteAdministrator:  (id) => dispatch(handleDeleteAdministrator(id)),
+    handleHideMessages:          () => dispatch(handleHideMessages()),
+    handleHideMessagesPopup:    () => dispatch(handleHideMessagesPopup()),
 })
   
 export default connect(

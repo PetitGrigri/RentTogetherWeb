@@ -2,21 +2,26 @@ import {
     USER_ADD_ADMINISTRATOR_REQUEST, 
     USER_ADD_ADMINISTRATOR_SUCCESS, 
     USER_ADD_ADMINISTRATOR_ERROR, 
-    USER_ADD_ADMINISTRATOR_HIDE_ERROR, 
-    USER_ADD_ADMINISTRATOR_HIDE_SUCCESS, 
     USER_GET_ADMINISTORS_REQUEST,
     USER_GET_ADMINISTORS_ERROR,
-    USER_GET_ADMINISTORS_SUCCESS} from '../actions/administrateurs'
+    USER_GET_ADMINISTORS_SUCCESS, 
+    USER_DELETE_ADMINISTRATOR_REQUEST,
+    USER_DELETE_ADMINISTRATOR_SUCCESS,
+    USER_DELETE_ADMINISTRATOR_ERROR,
+    USER_ADMINISTRATOR_HIDE_MESSAGES,
+    USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES
+} from '../actions/administrateurs'
 
 
 //le state initial
 const initialConnectionState = {
     loadingAdd : false,
     loadingGet: false,
+    loadingDeleteId: null,
     message_success: "",
     message_error: "",
-    message_get_success: "",
-    message_get_error: "",
+    message_popup_success: "",
+    message_popup_error: "",
     users: []
 }
 
@@ -33,57 +38,82 @@ const administrateurs = (state = initialConnectionState, action) => {
         case  USER_ADD_ADMINISTRATOR_SUCCESS: 
             return Object.assign({}, state, {
                 loadingAdd : false,
-                message_success: action.message
+                message_popup_success: action.message,
+                message_popup_error: "",
+                users: state.users.concat(action.user)
             });
 
         // Gestion d'une erreur lors de l'ajout d'un administrateur
         case  USER_ADD_ADMINISTRATOR_ERROR : 
             return Object.assign({}, state, {
                 loadingAdd : false,
-                message_error: action.message
+                message_popup_error: action.message,
+                message_popup_success: ""
             });
-
-        // Cacher le message d'erreur
-        case  USER_ADD_ADMINISTRATOR_HIDE_ERROR : 
-            return Object.assign({}, {
-                message_error: ""
-            });
-
-        // Cacher le message de réussite
-        case  USER_ADD_ADMINISTRATOR_HIDE_SUCCESS : 
-            return Object.assign({}, {
-                message_success: ""
-            });
-            
+        
 
 
         case USER_GET_ADMINISTORS_REQUEST : 
-            return Object.assign({}, {
+            return Object.assign({}, state, {
                 loadingGet: true,
-                message_get_error: "",
-                message_get_success: ""
+                message_error: "",
+                message_success: ""
             })
 
 
         case USER_GET_ADMINISTORS_ERROR :
-            return Object.assign({}, {
+            return Object.assign({}, state, {
                 loadingGet: false,
-                message_get_error: "",
-                message_get_success: ""
+                message_error: "",
+                message_success: ""
             })
 
         case USER_GET_ADMINISTORS_SUCCESS :
-            return Object.assign({}, {
+            return Object.assign({}, state, {
                 loadingGet: false,
                 users: action.users,
-                message_get_error: "",
-                message_get_success: ""
+                message_error: "",
+                message_success: ""
+            })
+        
+        case USER_DELETE_ADMINISTRATOR_REQUEST:
+            return Object.assign({}, state, {
+                loadingDeleteId: action.administratorId,
+                message_error: "",
+                message_success: ""
+            })
+            
+        case USER_DELETE_ADMINISTRATOR_SUCCESS:
+            return Object.assign({}, state, {
+                users:  state.users.filter(user =>
+                    user.userId !== action.administratorId
+                ),
+                message_success: "Utilisateur supprimé",
+                message_error: "",
+                loadingDeleteId: null
             })
 
+        case USER_DELETE_ADMINISTRATOR_ERROR:
+            return Object.assign({}, state, {
+                message_success: "",
+                message_error: action.message,
+                loadingDeleteId: null
+            })
+        
 
+        // Cacher le message d'erreur
+        case  USER_ADMINISTRATOR_HIDE_MESSAGES : 
+            return Object.assign({}, state, {
+                message_error: "",
+                message_success: ""
+            });
 
-
-
+        // Cacher le message de réussite
+        case  USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES : 
+            return Object.assign({}, state, {
+                message_popup_success: "",
+                message_popup_error: "",
+            });
         //autres 
         default : 
             return state;

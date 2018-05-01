@@ -10,7 +10,6 @@ class AlertMaterialize extends Component {
     }
     render() {
         let className = "alert " + (this.props.success ? "success" : "error");
-        console.log(className)
         return (
             <div className={className}>
                 {this.props.message}

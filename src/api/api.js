@@ -52,7 +52,7 @@ export const connectionAPI =  (login, password, callBackOk, callBackError) => {
  * @param {function} callBackOk 
  * @param {function} callBackError 
  */
-export const createAdministrator = function(dataAdministrator,  callBackOk, callBackError) {
+export const createUtilisateur= function(dataAdministrator,  callBackOk, callBackError) {
 
     // Le header contiendra le token d'authentification plus tard
     var myHeaders = new Headers({
@@ -66,10 +66,7 @@ export const createAdministrator = function(dataAdministrator,  callBackOk, call
     });
     var json = JSON.stringify(object);
 
-    //debug
-    console.log(json);
-
-    //les paramêtres de la requête
+    //les paramètres de la requête
     var options = {
         method: 'POST',
         headers: myHeaders,
@@ -80,11 +77,17 @@ export const createAdministrator = function(dataAdministrator,  callBackOk, call
 
     fetch(url+ "/Users", options)
         .then(response => {
-            if (response.ok) {
-                callBackOk()
+            if (response.ok === true) {
+                return response.json().catch(error => {
+                    throw Error("Erreur de l'API.");
+                });
+                //TODO ici ajouter utilisateur
             } else {
                 throw Error(response.statusText);
             }
+        })
+        .then(dataAdministrators => {
+            callBackOk(dataAdministrators);
         })
         .catch(error => {
             callBackError(error.message);
@@ -92,8 +95,14 @@ export const createAdministrator = function(dataAdministrator,  callBackOk, call
 }
 
 
-
-export const getAdministrators = function(token, callBackOk, callBackError) {
+/**
+ * Méthode destinée à récupérer la liste des utilisateurs
+ * 
+ * @param {string} token Le token de l'utilisateur connecté
+ * @param {function} callBackOk Le callback à utiliser quand on aura récupérer la liste des utilisateurs (la liste des utilisateurs sera transmise en paramètre)
+ * @param {function} callBackError Le callback à utiliser quand la récupération de la liste des utilisateurs n'est pas possibles (L'erreur sera transmise en paramètre)
+ */
+export const getUtilisateurs = function(token, callBackOk, callBackError) {
     // Le header contiendra le token d'authentification plus tard
     var myHeaders = new Headers({
         'Content-Type':'application/json',
@@ -110,7 +119,7 @@ export const getAdministrators = function(token, callBackOk, callBackError) {
 
     fetch(url+ "/Users", options)
         .then(response => {
-            if (response.ok) {
+            if (response.ok === true) {
                 return response.json().catch(error => {
                     throw Error("Erreur de l'API.");
                 });
@@ -126,4 +135,40 @@ export const getAdministrators = function(token, callBackOk, callBackError) {
         });
 }
 
+
+/**
+ * Fonction destinée à la suppression d'un utilisateur
+ * 
+ * @param {int} id L'identifiant d'un utilisateur
+ * @param {string} token Le token de l'utilisateur supprimé
+ * @param {function} callBackOk Le callback à utiliser lorsque l'utilisateur a été supprimé (ce dernier recevra l'id de l'utilisateur supprimé en paramêtre)
+ * @param {function} callBackError Le callback à utiliser lorsque l'utilisateur n'a pas été supprimé (ce dernier recevra un message d'erreur)
+ */
+export const deleteUser = function(id, token, callBackOk, callBackError) {
+     // Le header contiendra le token d'authentification plus tard
+    var myHeaders = new Headers({
+        'Authorization':'Bearer '+ token
+    });
+    
+    //les paramêtres de la requête
+    var options = {
+        method: 'DELETE',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default'
+    };
+
+    //réalisation de la requête
+    fetch(url+ "/Users/"+id, options)
+        .then(response => {
+            if (response.ok  === true) {
+                callBackOk(id);
+            } else {
+                throw Error(response.statusText);
+            }
+        })
+        .catch(error => {
+            callBackError(error.message);
+        });
+}
 
