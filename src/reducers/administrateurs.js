@@ -9,7 +9,10 @@ import {
     USER_DELETE_ADMINISTRATOR_SUCCESS,
     USER_DELETE_ADMINISTRATOR_ERROR,
     USER_ADMINISTRATOR_HIDE_MESSAGES,
-    USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES
+    USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES,
+    USER_UPDATE_ADMINISTRATOR_REQUEST,
+    USER_UPDATE_ADMINISTRATOR_SUCCESS,
+    USER_UPDATE_ADMINISTRATOR_ERROR
 } from '../actions/administrateurs'
 
 
@@ -17,6 +20,7 @@ import {
 const initialConnectionState = {
     loadingAdd : false,
     loadingGet: false,
+    loadingUpdateId: null,
     loadingDeleteId: null,
     message_success: "",
     message_error: "",
@@ -116,7 +120,25 @@ const administrateurs = (state = initialConnectionState, action) => {
             });
 
         //TODO EDIT 
+        case USER_UPDATE_ADMINISTRATOR_REQUEST:
+            return Object.assign({}, state, {
+                loadingUpdateId: action.userId
+            });
+            
+        case USER_UPDATE_ADMINISTRATOR_SUCCESS: 
+            return Object.assign({}, state, {
+                loadingUpdateId: null,
+                message_success: action.message,
+                message_error: "",
+                users: state.users.map((userState) => (userState.userId === action.user.userId) ? action.user : userState)
+            });
 
+        case USER_UPDATE_ADMINISTRATOR_ERROR:
+            return Object.assign({}, state, {
+                loadingUpdateId: null,
+                message_error: action.message,
+                message_success: ""
+            });
 
         //autres 
         default : 

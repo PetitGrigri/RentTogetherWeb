@@ -14,20 +14,22 @@ export const
     USER_DELETE_ADMINISTRATOR_REQUEST = 'USER_DELETE_ADMINISTRATOR_REQUEST',
     USER_DELETE_ADMINISTRATOR_SUCCESS= 'USER_DELETE_ADMINISTRATOR_SUCCESS',
     USER_DELETE_ADMINISTRATOR_ERROR= 'USER_DELETE_ADMINISTRATOR_ERROR',
+    // Modification d'un administrateur
+    USER_UPDATE_ADMINISTRATOR_REQUEST = 'USER_UPDATE_ADMINISTRATOR_REQUEST',
+    USER_UPDATE_ADMINISTRATOR_SUCCESS= 'USER_UPDATE_ADMINISTRATOR_SUCCESS',
+    USER_UPDATE_ADMINISTRATOR_ERROR= 'USER_UPDATE_ADMINISTRATOR_ERROR',
     // Suppression des messages d'erreurs ou de réussite
     USER_ADMINISTRATOR_HIDE_MESSAGES= 'USER_ADMINISTRATOR_HIDE_MESSAGES',
     USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES = 'USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES'
-    //Edition d'un administrateur
-    ////TODO EDIT 
     ;
 
 /**
- * Fonction destinée à la création d'un administrateur en utilisant l'objet passé en paramètre
+ * Fonction destinée à la création d'un administrateur en utilisant l'objet user passé en paramètre 
  * Plusieurs actions seront emises pour informer redux de l'état en cours
  * 
- * @param {object} data 
+ * @param {object} user  
  */
-export const handleCreateAdministrator = (data) => {
+export const handleCreateAdministrator = (user) => {
     return function (dispatch) {
 
         dispatch({
@@ -35,7 +37,7 @@ export const handleCreateAdministrator = (data) => {
         });
 
         api.createUtilisateur(
-            data,
+            user,
             (dataUser) => { dispatch(handleCreateAdministratorSuccess(dataUser)) },
             (error) => { dispatch(handleCreateAdministratorError(error)) }
         )
@@ -184,3 +186,53 @@ export const handleHideMessagesPopup = () => {
 };
 
 //TODO EDIT 
+
+
+/**
+ * Fonction destinée à la création d'un administrateur en utilisant l'objet user passé en paramètre 
+ * Plusieurs actions seront emises pour informer redux de l'état en cours
+ * 
+ * @param {object} user  
+ */
+export const handleUpdateAdministrator = (user) => {
+    return function (dispatch, getState) {
+
+        dispatch({
+            type: USER_UPDATE_ADMINISTRATOR_REQUEST, 
+            userId: user.userId
+        });
+
+        api.putUser(
+            user,
+            getState().connection.user.token,
+            (dataUser) => { dispatch(handleUpdateAdministratorSuccess(dataUser)) },
+            (error) => { dispatch(handleUpdateAdministratorError(error)) }
+        )
+    }
+}
+
+/**
+ * Fonction permettant de retourner l'action nécessaire à la prise en compte du succés de la création d'un utilisateur
+ */
+export const handleUpdateAdministratorSuccess = (user) => {
+    return {
+        type: USER_UPDATE_ADMINISTRATOR_SUCCESS,
+        message: "L'utilisateur a été modifié",
+        user: user
+    }
+};
+
+/**
+ * Fonction permettant de retourner l'action nécessaire à la prise en compte l'échec de la création d'un utilisateur
+ * 
+ * @param {string} error le message d'erreur
+ */
+export const handleUpdateAdministratorError = (error) => {
+    return {
+        type: USER_UPDATE_ADMINISTRATOR_ERROR,
+        message: error
+    }
+}
+
+
+

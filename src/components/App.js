@@ -14,17 +14,16 @@ import Chat from './Chat';
 import GestionAdministrateurs from './GestionAdministrateurs';
 
 
-const App = ( {store:store } ) => {
+const App = ( {store, ...rest } ) => {
     return (
         <Provider store={store}>
             <BrowserRouter>
                 <Switch>
-
                     <Route exact path="/" component={Login} />
                     <PrivateRoute path="/dashboard" component={Dashboard} />
                     <PrivateRoute path="/locataires" component={Locataires}  />
                     <PrivateRoute path="/proprietaires"  component={Proprietaires}  />
-                    <PrivateRoute path="/locations" component={Locations}  />
+                    <PrivateRoute path="/locations" component={Locations}    />
                     <PrivateRoute path="/chat" component={Chat}  />
                     <PrivateRoute path="/administrateurs" component={GestionAdministrateurs}  />
                     <Redirect to="/"/>

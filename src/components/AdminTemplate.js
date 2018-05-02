@@ -3,6 +3,8 @@ import { NavigationDrawer } from 'react-md';
 import NavLink from './NavLink';
 import UserActionMenu from './UserActionMenu';
 import { withRouter } from 'react-router'
+import { connect } from 'react-redux'
+
 
 const navItems = [
 {
@@ -81,5 +83,10 @@ class AdminTemplate extends Component {
         );
     }
 }
+const mapStateToProps = state => ({
+    user: state.connection.user
+});
 
-export default withRouter(AdminTemplate);
+export default connect(
+    mapStateToProps
+)(withRouter(AdminTemplate));

@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
+import { formDataToObject } from '../utils/convert.js'
 import AdminTemplate from './AdminTemplate';
-import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, TableRow, Card, TextField, CardTitle, FontIcon, SelectionControl, CardText, CircularProgress, DialogContainer, EditDialogColumn } from 'react-md';
+import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, TableRow, Card, TextField, CardTitle, FontIcon, SelectionControl, CardText, CircularProgress, DialogContainer } from 'react-md';
 import { 
     handleCreateAdministrator, 
-    handleCreateAdministratorError, 
     handleHideMessages,
     handleHideMessagesPopup,
     handleGetAdministrators, 
-    handleDeleteAdministrator
+    handleDeleteAdministrator,
+    handleUpdateAdministrator
 } from "../actions/administrateurs";
 
 import { connect } from 'react-redux'
@@ -35,10 +36,12 @@ class GestionAdministrateurs extends Component {
     handleSubmit (event) {
         // blocage de l'envoie du formulaire
         event.preventDefault();
-        //récupération des données du formulaire
+        //récupération des données du formulaire et conversion en objet
         var dataFormulaire = new FormData(event.target);
+        var user = formDataToObject(dataFormulaire);
+        
         //envoie des données 
-        this.props.handleCreateAdministrator(dataFormulaire);
+        this.props.handleCreateAdministrator(user);
     }
 
     componentDidMount() {
@@ -71,7 +74,7 @@ class GestionAdministrateurs extends Component {
 
     updateAdministrator(user) {
         console.log(user);
-        alert('reprendre ici');
+        this.props.handleUpdateAdministrator(user);
     }
 
     render() {
@@ -92,7 +95,7 @@ class GestionAdministrateurs extends Component {
                             <CardTitle title="Liste des administrateurs" subtitle="Faites pas les cons !" />
                             
                             <CardText>
-                                { this.props.loadingGet == true
+                                { this.props.loadingGet === true
                                     ?   <CircularProgress id="#loading_user_data"/>
                                     :   <DataTable baseId="simple-selectable-table">
                                             <TableHeader>
@@ -111,7 +114,9 @@ class GestionAdministrateurs extends Component {
                                                 {   (this.props.users).map((user) => 
                                                         <UserTableRow 
                                                             user={user}
+                                                            key={user.userId}
                                                             deleteInProgress = {this.props.loadingDeleteId === user.userId }
+                                                            updateInProgress = {this.props.loadingUpdateId === user.userId }
                                                             handleDelete={(id) => this.deleteAdministrator(id)} 
                                                             handleEdit={(user) => this.updateAdministrator(user)} />
                                                     ) 
@@ -239,6 +244,7 @@ const mapStateToProps = state => ({
     loadingAdd:             state.administrateurs.loadingAdd, 
     loadingGet:             state.administrateurs.loadingGet, 
     loadingDeleteId:        state.administrateurs.loadingDeleteId,
+    loadingUpdateId:        state.administrateurs.loadingUpdateId,
     messageError:           state.administrateurs.message_error,
     messageSuccess:         state.administrateurs.message_success,
     messagePopupError:      state.administrateurs.message_popup_error,
@@ -250,8 +256,8 @@ const mapDispatchToProps = dispatch => ({
     handleGetAdministrators:    () => dispatch(handleGetAdministrators()),
     handleCreateAdministrator:  (dataFormulaire) => dispatch(handleCreateAdministrator(dataFormulaire)),
     handleDeleteAdministrator:  (id) => dispatch(handleDeleteAdministrator(id)),
-    //TODO edit
-    handleHideMessages:          () => dispatch(handleHideMessages()),
+    handleUpdateAdministrator:  (user) => dispatch(handleUpdateAdministrator(user)),
+    handleHideMessages:         () => dispatch(handleHideMessages()),
     handleHideMessagesPopup:    () => dispatch(handleHideMessagesPopup()),
 })
   

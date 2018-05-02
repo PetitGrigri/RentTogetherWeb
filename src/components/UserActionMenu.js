@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { MenuButton } from 'react-md';
+import { MenuButton, Subheader, List, Avatar, FontIcon, ListItem } from 'react-md';
 
 import React, { Component } from 'react';
 import { Layover } from 'react-md/lib/Helpers';
@@ -12,9 +12,12 @@ class UserActionMenu extends Component {
                 id={this.props.id}
                 icon
                 className={this.props.className}
-                menuItems={this.props.menuItems}
-                position={Layover.Positions.BOTTOM_RIGHT}
+                menuItems={
+                    [<ListItem primaryText="Mon Profil" rightIcon={<FontIcon>account_circle</FontIcon>}/>,
+                    <ListItem primaryText="Déconnexion" rightIcon={<FontIcon>exit_to_app</FontIcon>}/>]
+                }
                 
+                position={Layover.Positions.BOTTOM_RIGHT}
             >
                 more_vert
            </MenuButton>

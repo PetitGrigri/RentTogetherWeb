@@ -48,22 +48,18 @@ export const connectionAPI =  (login, password, callBackOk, callBackError) => {
 /**
  * Fonction permettant de créer un utilisateur
  * 
- * @param {object} dataAdministrator 
+ * @param {object} user L'objet FormData correspondant à l'utilisateur
  * @param {function} callBackOk 
  * @param {function} callBackError 
  */
-export const createUtilisateur= function(dataAdministrator,  callBackOk, callBackError) {
+export const createUtilisateur= function(user,  callBackOk, callBackError) {
     // Le header contiendra le token d'authentification plus tard
     var myHeaders = new Headers({
         'Content-Type':'application/json'
     });
 
-    // Création du json de la requête transmise
-    var object = {};
-    dataAdministrator.forEach(function(value, key){
-        object[key] = value;
-    });
-    var json = JSON.stringify(object);
+    // Conversion de notre FormData en objet 
+    var jsonUserString = JSON.stringify(user);
 
     //les paramètres de la requête
     var options = {
@@ -71,7 +67,7 @@ export const createUtilisateur= function(dataAdministrator,  callBackOk, callBac
         headers: myHeaders,
         mode: 'cors',
         cache: 'default',
-        body: json
+        body: jsonUserString
     };
 
     fetch(url+ "/Users", options)
@@ -171,5 +167,57 @@ export const deleteUser = function(id, token, callBackOk, callBackError) {
         });
 }
 
-//TODO EDIT 
+/**
+ * Fonction destinée à la modification d'un utilisateur
+ * Attention : Tout les éléments non remplis (à l'exception de la date de création token et expiration Token) seront mis à null
+ * 
+ * @param {user} user L'objet utilisateur à enregistrer
+ * @param {string} token Le token de l'utilisateur supprimé
+ * @param {function} callBackOk Le callback à utiliser lorsque l'utilisateur a été supprimé (ce dernier recevra l'id de l'utilisateur supprimé en paramêtre)
+ * @param {function} callBackError Le callback à utiliser lorsque l'utilisateur n'a pas été supprimé (ce dernier recevra un message d'erreur)
+ */
+export const putUser = function(user, token, callBackOk, callBackError) {
+     // Le header contiendra le token d'authentification plus tard
+    var myHeaders = new Headers({
+        'Content-Type':'application/json',
+        'Authorization':'Bearer '+ token
+    });
 
+    console.log(user);
+
+    // Conversion de notre FormData en objet 
+    var jsonUserString = JSON.stringify(user);
+    
+    console.log(jsonUserString);
+
+    //les paramêtres de la requête
+    var options = {
+        method: 'PUT',
+        headers: myHeaders,
+        mode: 'cors',
+        cache: 'default',
+        body: jsonUserString
+    };
+
+    //réalisation de la requête
+    fetch(url+ "/Users/"+user.userId, options)
+        .then(response => {
+            if (response.ok === true) {
+                return response.json().catch(error => {
+                    throw Error("Erreur de l'API.");
+                });
+            } else {
+                throw Error(response.statusText);
+            }
+        })
+        .then(dataUser => {
+            setTimeout(() =>
+                callBackOk(dataUser),
+            10000);
+        })
+        .catch(error => {
+            setTimeout(() =>
+                callBackError(error.message),
+            10000);
+        });
+}

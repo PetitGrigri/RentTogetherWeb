@@ -9,6 +9,7 @@ const initialConnectionState = {
     message : "",
 }
 
+
 const connection = (state = initialConnectionState, action) => {
 
     switch(action.type) {
@@ -24,7 +25,7 @@ const connection = (state = initialConnectionState, action) => {
 
             var userState = {}
 
-            Object.keys(action.user).map(function(key) {
+            Object.keys(action.user).forEach((key) => {
                 if (key !== "password" ) {
                     userState[key] = action.user[key];
                 }

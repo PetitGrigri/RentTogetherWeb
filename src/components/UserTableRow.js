@@ -1,32 +1,35 @@
 import React, { Component } from 'react';
-import { TableColumn, TableRow, FontIcon, CircularProgress, Button, EditDialogColumn } from 'react-md';
+import { TableColumn, TableRow, FontIcon, Button, EditDialogColumn } from 'react-md';
 import LoadingFontIcon from './LoadingFontIcon';
 
 
 class UserTableRow extends Component {
 
-
-
     constructor(props) {
         super(props);
 
+        //binding des méthodes
         this.editUser = this.editUser.bind(this);
         this.stopEditUser = this.stopEditUser.bind(this);
         this.deleteUser = this.deleteUser.bind(this);
         this.saveEdit = this.saveEdit.bind(this);
         this.changeValue = this.changeValue.bind(this);
 
+        //initialisation du state
         this.state = {
             edit: false,
-            saveEdit: false,
         }
 
+        // On set les variables pouvant être modifiées
         this.firstName  = this.props.user.firstName;
         this.lastName = this.props.user.lastName;
         this.phoneNumber = this.props.user.phoneNumber;
         this.email = this.props.user.email;
     }
 
+    /**
+     * Méthode permettant d'indiquer que l'on modifie l'utilisateur lié à ce composant (ce qui modifiera l'affichage)
+     */
     editUser () {
         this.setState({
             edit: true,
@@ -34,11 +37,16 @@ class UserTableRow extends Component {
         
     }
 
+    /**
+     * Méthode permettant de sauvegarder les modifications faites sur l'utilisateur
+     */
     saveEdit () {
+        // Modification du state : on n'édite plus
         this.setState({
             edit: false,
         });
 
+        // On met à jour l'objet utilisateur avec les nouvelles données
         let userUpdated = Object.assign({}, this.props.user, {
             firstName: this.firstName,
             lastName: this.lastName,
@@ -46,26 +54,39 @@ class UserTableRow extends Component {
             email: this.email
         });
         
+        // On transmet l'utilisateur à modifier
         this.props.handleEdit(userUpdated);
     }
 
+    /**
+     * Méthode permettant d'indiquer que l'on n'édite plus l'utilisateur
+     */
     stopEditUser () {
         this.setState({
             edit: false,
         });
     }
 
+    /**
+     * Méthode permettant d'indiquer que l'on supprime l'user
+     */
     deleteUser() {
+        // On transmet l'id de l'utilisateur à supprimer
         this.props.handleDelete(this.props.user.userId);
     }
 
+    /**
+     * Méthode permettant de prendre en compte chaque modification de l'utilisateur (dans les variables temporaires)
+     * @param {*} value La nouvelle valeur 
+     * @param {*} name  Le nom de la propriété modifiée
+     */
     changeValue (value, name) {
-        console.log(value, name);
         this[name]= value;
     }
 
 
     render() {
+        // Objet contenant la configuration de la date de création qui sera utilisé lors de l'affichage
         const optionsDateTimeFormat = {
             year: "numeric", 
             month: "numeric", 
@@ -76,16 +97,17 @@ class UserTableRow extends Component {
             hour12: false
         };
 
+        //parsing de la date de créaton et formatage
         let date = Date.parse(this.props.user.createDate);
         let dateFormat = Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
 
         let loadingDeleteId = "loading-delete-"+this.props.user.userId;
-        let loadingSaveId = "loading-edit-"+this.props.user.userId;
+        let loadingUpdateId = "loading-edit-"+this.props.user.userId;
 
         if (this.state.edit === false) {
             return (
                 <TableRow key={this.props.user.userId}>
-                    <TableColumn>{this.props.userId}</TableColumn>
+                    <TableColumn>{this.props.user.userId}</TableColumn>
                     <TableColumn>{this.props.user.firstName}</TableColumn>
                     <TableColumn>{this.props.user.lastName}</TableColumn>
                     <TableColumn>{this.props.user.phoneNumber}</TableColumn>
@@ -105,13 +127,13 @@ class UserTableRow extends Component {
                     <TableColumn >
                         <LoadingFontIcon id={loadingDeleteId} onClick={this.deleteUser} loading={this.props.deleteInProgress}>delete</LoadingFontIcon>
                         <Button icon primary>refresh</Button>
-                        <LoadingFontIcon id={loadingSaveId} onClick={this.editUser} loading={this.state.saveEdit}>edit</LoadingFontIcon>
+                        <LoadingFontIcon id={loadingUpdateId} onClick={this.editUser} loading={this.props.updateInProgress}>edit</LoadingFontIcon>
                     </TableColumn>
                 </TableRow>)
         } else {
             return (
                 <TableRow key={this.props.userId}>
-                    <TableColumn>{this.props.userId}</TableColumn>
+                    <TableColumn>{this.props.user.userId}</TableColumn>
                     <EditDialogColumn placeholder="Nom de l'utilisateur" inline defaultValue={this.props.user.firstName}  
                         onChange={(value,event) => this.changeValue(value,"firstName")} />
                     <EditDialogColumn placeholder="Prénom de l'utilisateur" inline defaultValue={this.props.user.lastName} 
