@@ -17,6 +17,8 @@ export const
     // Suppression des messages d'erreurs ou de réussite
     USER_ADMINISTRATOR_HIDE_MESSAGES= 'USER_ADMINISTRATOR_HIDE_MESSAGES',
     USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES = 'USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES'
+    //Edition d'un administrateur
+    ////TODO EDIT 
     ;
 
 /**
@@ -180,3 +182,5 @@ export const handleHideMessagesPopup = () => {
         type: USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES
     } 
 };
+
+//TODO EDIT 

@@ -114,6 +114,10 @@ const administrateurs = (state = initialConnectionState, action) => {
                 message_popup_success: "",
                 message_popup_error: "",
             });
+
+        //TODO EDIT 
+
+
         //autres 
         default : 
             return state;

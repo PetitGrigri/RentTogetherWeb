@@ -53,7 +53,6 @@ export const connectionAPI =  (login, password, callBackOk, callBackError) => {
  * @param {function} callBackError 
  */
 export const createUtilisateur= function(dataAdministrator,  callBackOk, callBackError) {
-
     // Le header contiendra le token d'authentification plus tard
     var myHeaders = new Headers({
         'Content-Type':'application/json'
@@ -171,4 +170,6 @@ export const deleteUser = function(id, token, callBackOk, callBackError) {
             callBackError(error.message);
         });
 }
+
+//TODO EDIT 
 

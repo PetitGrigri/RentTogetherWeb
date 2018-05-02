@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import AdminTemplate from './AdminTemplate';
-import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, TableRow, Card, TextField, CardTitle, FontIcon, SelectionControl, CardText, CircularProgress, DialogContainer } from 'react-md';
+import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, TableRow, Card, TextField, CardTitle, FontIcon, SelectionControl, CardText, CircularProgress, DialogContainer, EditDialogColumn } from 'react-md';
 import { 
     handleCreateAdministrator, 
     handleCreateAdministratorError, 
@@ -9,9 +9,10 @@ import {
     handleGetAdministrators, 
     handleDeleteAdministrator
 } from "../actions/administrateurs";
-import "../css/GestionAdministrateurs.css";
+
 import { connect } from 'react-redux'
 import AlertMaterialize from './AlertMaterialize';
+import UserTableRow from './UserTableRow';
 
 class GestionAdministrateurs extends Component {
 
@@ -23,7 +24,7 @@ class GestionAdministrateurs extends Component {
         this.deleteAdministrator = this.deleteAdministrator.bind(this);
 
         this.state={
-            openDialog: false
+            openDialog: false,
         }
     }
 
@@ -64,44 +65,16 @@ class GestionAdministrateurs extends Component {
     }
 
     deleteAdministrator(id) {
+        console.log(id);
         this.props.handleDeleteAdministrator(id);
     }
 
+    updateAdministrator(user) {
+        console.log(user);
+        alert('reprendre ici');
+    }
+
     render() {
-
-        let usersRows = null;
-        const optionsDateTimeFormat = {
-            year: "numeric", 
-            month: "numeric", 
-            day: "numeric",
-            hour: "numeric", 
-            minute: "numeric", 
-            second: "numeric",
-            hour12: false
-        };
-
-        //todo transformmer en composant
-        usersRows = (this.props.users).map((user) => {
-            let date = Date.parse(user.createDate);
-            let dateFormat = Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
-
-            return (
-                <TableRow key={user.userId}>
-                    <TableColumn>{user.userId}</TableColumn>
-                    <TableColumn>{user.firstName}</TableColumn>
-                    <TableColumn>{user.lastName}</TableColumn>
-                    <TableColumn>{user.phoneNumber}</TableColumn>
-                    <TableColumn>{user.email}</TableColumn>
-                    <TableColumn>{dateFormat}</TableColumn>
-                    <TableColumn>
-                        { this.props.loadingDeleteId !== user.userId 
-                            ? <Button icon primary onClick={()=>this.deleteAdministrator(user.userId)}>delete</Button>
-                            : <CircularProgress id="loading_delete" className="circular-float-icon" centered={false} /> }
-                        <Button icon primary>refresh</Button>
-                        <Button icon primary>mode_edit</Button>
-                    </TableColumn>
-                </TableRow>)
-        });
 
         return (
             <AdminTemplate>
@@ -120,7 +93,7 @@ class GestionAdministrateurs extends Component {
                             
                             <CardText>
                                 { this.props.loadingGet == true
-                                    ?   <CircularProgress />
+                                    ?   <CircularProgress id="#loading_user_data"/>
                                     :   <DataTable baseId="simple-selectable-table">
                                             <TableHeader>
                                                 <TableRow>
@@ -130,11 +103,19 @@ class GestionAdministrateurs extends Component {
                                                     <TableColumn>Téléphone</TableColumn>
                                                     <TableColumn>Email</TableColumn>
                                                     <TableColumn>Date Création</TableColumn>
+                                                    <TableColumn>Types</TableColumn>
                                                     <TableColumn>Actions</TableColumn>
                                                 </TableRow>
                                             </TableHeader>
                                             <TableBody>
-                                                {usersRows}
+                                                {   (this.props.users).map((user) => 
+                                                        <UserTableRow 
+                                                            user={user}
+                                                            deleteInProgress = {this.props.loadingDeleteId === user.userId }
+                                                            handleDelete={(id) => this.deleteAdministrator(id)} 
+                                                            handleEdit={(user) => this.updateAdministrator(user)} />
+                                                    ) 
+                                                }
                                             </TableBody>
                                         </DataTable>
                                 }
@@ -167,7 +148,7 @@ class GestionAdministrateurs extends Component {
                             label="Email"
                             type="email"
                             placeholder="Email du nouvel administrateur"
-                            leftIcon={<FontIcon>person</FontIcon>}
+                            leftIcon={<FontIcon>mail</FontIcon>}
                             fullWidth
                         />
 
@@ -177,7 +158,7 @@ class GestionAdministrateurs extends Component {
                             type="text"
                             label="Nom"
                             placeholder="Nom du nouvel administrateur"
-                            leftIcon={<FontIcon>lock</FontIcon>}
+                            leftIcon={<FontIcon>edit</FontIcon>}
                             fullWidth
                         />
 
@@ -187,7 +168,7 @@ class GestionAdministrateurs extends Component {
                             type="text"
                             label="Prénom"
                             placeholder="Prénom du nouvel administrateur"
-                            leftIcon={<FontIcon>lock</FontIcon>}
+                            leftIcon={<FontIcon>edit</FontIcon>}
                             fullWidth
                         />
 
@@ -197,7 +178,7 @@ class GestionAdministrateurs extends Component {
                             type="number"
                             label="Téléphone"
                             placeholder="Téléphone du nouvel administrateur"
-                            leftIcon={<FontIcon>lock</FontIcon>}
+                            leftIcon={<FontIcon>phone</FontIcon>}
                             fullWidth
                         />
 
@@ -269,6 +250,7 @@ const mapDispatchToProps = dispatch => ({
     handleGetAdministrators:    () => dispatch(handleGetAdministrators()),
     handleCreateAdministrator:  (dataFormulaire) => dispatch(handleCreateAdministrator(dataFormulaire)),
     handleDeleteAdministrator:  (id) => dispatch(handleDeleteAdministrator(id)),
+    //TODO edit
     handleHideMessages:          () => dispatch(handleHideMessages()),
     handleHideMessagesPopup:    () => dispatch(handleHideMessagesPopup()),
 })
