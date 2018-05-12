@@ -26,4 +26,4 @@ const store = createStore(
 
 //rendu de l'application
 ReactDOM.render(<App store={store} />, document.getElementById('root'));
-registerServiceWorker();
+registerServiceWorker(); //TODO : mis en place par le create-rect-app : voir à quoi ca sert

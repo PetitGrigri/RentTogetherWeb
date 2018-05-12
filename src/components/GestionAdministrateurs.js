@@ -129,9 +129,6 @@ class GestionAdministrateurs extends Component {
                     </Cell>
                 </Grid>
 
-
-                
-
                 <DialogContainer
                     id="simple-list-dialog"
                     visible={this.state.openDialog}

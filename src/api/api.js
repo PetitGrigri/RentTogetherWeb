@@ -1,6 +1,6 @@
 import { empty } from '../utils/check.js';
 
-const url = window.API_URL;
+const url = process.env.REACT_APP_API_URL;
 
 /**
  * Méthode permettant de se connecter à l'API

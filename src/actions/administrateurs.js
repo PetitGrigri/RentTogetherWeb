@@ -185,9 +185,6 @@ export const handleHideMessagesPopup = () => {
     } 
 };
 
-//TODO EDIT 
-
-
 /**
  * Fonction destinée à la création d'un administrateur en utilisant l'objet user passé en paramètre 
  * Plusieurs actions seront emises pour informer redux de l'état en cours

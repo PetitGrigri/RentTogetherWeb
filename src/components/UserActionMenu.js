@@ -1,8 +1,25 @@
 import PropTypes from 'prop-types';
 import { MenuButton, FontIcon, ListItem } from 'react-md';
-
+import NavLink from './NavLink';
 import React, { Component } from 'react';
 import { Layover } from 'react-md/lib/Helpers';
+
+const userActions = [
+    {
+        label: 'Mon profil',
+        title: 'Mon profil',
+        to: '/profil',
+        icon: 'account_circle',
+        iconPosition: 'right',
+    },     
+    {
+        label: 'Déconnexion',
+        title: 'Déconnexion',
+        to: '/logout',
+        icon: 'exit_to_app',
+        iconPosition: 'right',
+    }
+];
 
 class UserActionMenu extends Component {
     
@@ -12,11 +29,7 @@ class UserActionMenu extends Component {
                 id={this.props.id}
                 icon
                 className={this.props.className}
-                menuItems={
-                    [<ListItem primaryText="Mon Profil" rightIcon={<FontIcon>account_circle</FontIcon>}/>,
-                    <ListItem primaryText="Déconnexion" rightIcon={<FontIcon>exit_to_app</FontIcon>}/>]
-                }
-                
+                menuItems={userActions.map(item => <NavLink key={item.to} {...item}/>)}
                 position={Layover.Positions.BOTTOM_RIGHT}
             >
                 more_vert
