@@ -1,4 +1,5 @@
 import { empty } from '../utils/check.js';
+import { urlWithParams } from '../utils/convert.js';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -94,16 +95,20 @@ export const createUtilisateur= function(user,  callBackOk, callBackError) {
  * Méthode destinée à récupérer la liste des utilisateurs
  * 
  * @param {string} token Le token de l'utilisateur connecté
+ * @param {object} filter Un objet représentant le filtre à utiliser
  * @param {function} callBackOk Le callback à utiliser quand on aura récupérer la liste des utilisateurs (la liste des utilisateurs sera transmise en paramètre)
  * @param {function} callBackError Le callback à utiliser quand la récupération de la liste des utilisateurs n'est pas possibles (L'erreur sera transmise en paramètre)
  */
-export const getUtilisateurs = function(token, callBackOk, callBackError) {
+export const getUtilisateurs = function(token, filter, callBackOk, callBackError) {
     // Le header contiendra le token d'authentification plus tard
     var myHeaders = new Headers({
         'Content-Type':'application/json',
         'Authorization':'Bearer '+token
     });
     
+    console.log(urlWithParams(url+ "/Users", filter));
+
+
     //les paramêtres de la requête
     var options = {
         method: 'GET',

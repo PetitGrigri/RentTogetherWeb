@@ -1,19 +1,19 @@
 import { 
-    USER_ADD_ADMINISTRATOR_REQUEST, 
-    USER_ADD_ADMINISTRATOR_SUCCESS, 
-    USER_ADD_ADMINISTRATOR_ERROR, 
-    USER_GET_ADMINISTRATORS_REQUEST,
-    USER_GET_ADMINISTRATORS_ERROR,
-    USER_GET_ADMINISTRATORS_SUCCESS, 
-    USER_DELETE_ADMINISTRATOR_REQUEST,
-    USER_DELETE_ADMINISTRATOR_SUCCESS,
-    USER_DELETE_ADMINISTRATOR_ERROR,
-    USER_ADMINISTRATOR_HIDE_MESSAGES,
-    USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES,
-    USER_UPDATE_ADMINISTRATOR_REQUEST,
-    USER_UPDATE_ADMINISTRATOR_SUCCESS,
-    USER_UPDATE_ADMINISTRATOR_ERROR
-} from '../actions/administrateurs'
+    USER_ADD_OWNER_REQUEST, 
+    USER_ADD_OWNER_SUCCESS, 
+    USER_ADD_OWNER_ERROR, 
+    USER_GET_OWNERS_REQUEST,
+    USER_GET_OWNERS_ERROR,
+    USER_GET_OWNERS_SUCCESS, 
+    USER_DELETE_OWNER_REQUEST,
+    USER_DELETE_OWNER_SUCCESS,
+    USER_DELETE_OWNER_ERROR,
+    USER_OWNER_HIDE_MESSAGES,
+    USER_OWNER_HIDE_POPUP_MESSAGES,
+    USER_UPDATE_OWNER_REQUEST,
+    USER_UPDATE_OWNER_SUCCESS,
+    USER_UPDATE_OWNER_ERROR
+} from '../actions/proprietaires'
 
 
 //le state initial
@@ -29,17 +29,17 @@ const initialConnectionState = {
     users: []
 }
 
-const administrateurs = (state = initialConnectionState, action) => {
+const proprietaires = (state = initialConnectionState, action) => {
 
     switch(action.type) {
         // Gestion d'une demande d'ajout d'un utilisateur
-        case USER_ADD_ADMINISTRATOR_REQUEST: 
+        case USER_ADD_OWNER_REQUEST: 
             return Object.assign({}, state, {
                 loadingAdd : true
             });
 
-        // Gestion de la réussite de l'ajout d'un administrateur
-        case  USER_ADD_ADMINISTRATOR_SUCCESS: 
+        // Gestion de la réussite de l'ajout d'un proprietaire
+        case  USER_ADD_OWNER_SUCCESS: 
             return Object.assign({}, state, {
                 loadingAdd : false,
                 message_popup_success: action.message,
@@ -47,8 +47,8 @@ const administrateurs = (state = initialConnectionState, action) => {
                 users: state.users.concat(action.user)
             });
 
-        // Gestion d'une erreur lors de l'ajout d'un administrateur
-        case  USER_ADD_ADMINISTRATOR_ERROR : 
+        // Gestion d'une erreur lors de l'ajout d'un proprietaire
+        case  USER_ADD_OWNER_ERROR : 
             return Object.assign({}, state, {
                 loadingAdd : false,
                 message_popup_error: action.message,
@@ -57,7 +57,7 @@ const administrateurs = (state = initialConnectionState, action) => {
         
 
 
-        case USER_GET_ADMINISTRATORS_REQUEST : 
+        case USER_GET_OWNERS_REQUEST : 
             return Object.assign({}, state, {
                 loadingGet: true,
                 message_error: "",
@@ -65,14 +65,14 @@ const administrateurs = (state = initialConnectionState, action) => {
             })
 
 
-        case USER_GET_ADMINISTRATORS_ERROR :
+        case USER_GET_OWNERS_ERROR :
             return Object.assign({}, state, {
                 loadingGet: false,
                 message_error: "",
                 message_success: ""
             })
 
-        case USER_GET_ADMINISTRATORS_SUCCESS :
+        case USER_GET_OWNERS_SUCCESS :
             return Object.assign({}, state, {
                 loadingGet: false,
                 users: action.users,
@@ -80,24 +80,24 @@ const administrateurs = (state = initialConnectionState, action) => {
                 message_success: ""
             })
         
-        case USER_DELETE_ADMINISTRATOR_REQUEST:
+        case USER_DELETE_OWNER_REQUEST:
             return Object.assign({}, state, {
-                loadingDeleteId: action.administratorId,
+                loadingDeleteId: action.ownerId,
                 message_error: "",
                 message_success: ""
             })
             
-        case USER_DELETE_ADMINISTRATOR_SUCCESS:
+        case USER_DELETE_OWNER_SUCCESS:
             return Object.assign({}, state, {
                 users:  state.users.filter(user =>
-                    user.userId !== action.administratorId
+                    user.userId !== action.ownerId
                 ),
                 message_success: "Utilisateur supprimé",
                 message_error: "",
                 loadingDeleteId: null
             })
 
-        case USER_DELETE_ADMINISTRATOR_ERROR:
+        case USER_DELETE_OWNER_ERROR:
             return Object.assign({}, state, {
                 message_success: "",
                 message_error: action.message,
@@ -106,26 +106,26 @@ const administrateurs = (state = initialConnectionState, action) => {
         
 
         // Cacher le message d'erreur
-        case  USER_ADMINISTRATOR_HIDE_MESSAGES : 
+        case  USER_OWNER_HIDE_MESSAGES : 
             return Object.assign({}, state, {
                 message_error: "",
                 message_success: ""
             });
 
         // Cacher le message de réussite
-        case  USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES : 
+        case  USER_OWNER_HIDE_POPUP_MESSAGES : 
             return Object.assign({}, state, {
                 message_popup_success: "",
                 message_popup_error: "",
             });
 
         //TODO EDIT 
-        case USER_UPDATE_ADMINISTRATOR_REQUEST:
+        case USER_UPDATE_OWNER_REQUEST:
             return Object.assign({}, state, {
                 loadingUpdateId: action.userId
             });
             
-        case USER_UPDATE_ADMINISTRATOR_SUCCESS: 
+        case USER_UPDATE_OWNER_SUCCESS: 
             return Object.assign({}, state, {
                 loadingUpdateId: null,
                 message_success: action.message,
@@ -133,7 +133,7 @@ const administrateurs = (state = initialConnectionState, action) => {
                 users: state.users.map((userState) => (userState.userId === action.user.userId) ? action.user : userState)
             });
 
-        case USER_UPDATE_ADMINISTRATOR_ERROR:
+        case USER_UPDATE_OWNER_ERROR:
             return Object.assign({}, state, {
                 loadingUpdateId: null,
                 message_error: action.message,
@@ -146,4 +146,4 @@ const administrateurs = (state = initialConnectionState, action) => {
     }
 }
 
-export default administrateurs;
+export default proprietaires;

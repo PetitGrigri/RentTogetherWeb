@@ -3,24 +3,24 @@ import * as api from '../api/api.js';
 //Types d'actions destinées à l'ajout d'un administrateur
 export const
     // Récupération de la liste des utilisateurs
-    USER_GET_ADMINISTRATORS_REQUEST = 'USER_GET_ADMINISTRATORS',
-    USER_GET_ADMINISTRATORS_SUCCESS = 'USER_GET_ADMINISTRATORS_SUCCESS',
-    USER_GET_ADMINISTRATORS_ERROR = 'USER_GET_ADMINISTRATORS_ERROR',
+    USER_GET_OWNERS_REQUEST = 'USER_GET_OWNERS',
+    USER_GET_OWNERS_SUCCESS = 'USER_GET_OWNERS_SUCCESS',
+    USER_GET_OWNERS_ERROR = 'USER_GET_OWNERS_ERROR',
     // Ajout d'un administrateur
-    USER_ADD_ADMINISTRATOR_REQUEST = 'USER_ADD_ADMINISTRATOR',
-    USER_ADD_ADMINISTRATOR_SUCCESS= 'USER_ADD_ADMINISTRATOR_SUCCESS',
-    USER_ADD_ADMINISTRATOR_ERROR= 'USER_ADD_ADMINISTRATOR_ERROR',
+    USER_ADD_OWNER_REQUEST = 'USER_ADD_OWNER',
+    USER_ADD_OWNER_SUCCESS= 'USER_ADD_OWNER_SUCCESS',
+    USER_ADD_OWNER_ERROR= 'USER_ADD_OWNER_ERROR',
     // Suppression d'un administrateur
-    USER_DELETE_ADMINISTRATOR_REQUEST = 'USER_DELETE_ADMINISTRATOR_REQUEST',
-    USER_DELETE_ADMINISTRATOR_SUCCESS= 'USER_DELETE_ADMINISTRATOR_SUCCESS',
-    USER_DELETE_ADMINISTRATOR_ERROR= 'USER_DELETE_ADMINISTRATOR_ERROR',
+    USER_DELETE_OWNER_REQUEST = 'USER_DELETE_OWNER_REQUEST',
+    USER_DELETE_OWNER_SUCCESS= 'USER_DELETE_OWNER_SUCCESS',
+    USER_DELETE_OWNER_ERROR= 'USER_DELETE_OWNER_ERROR',
     // Modification d'un administrateur
-    USER_UPDATE_ADMINISTRATOR_REQUEST = 'USER_UPDATE_ADMINISTRATOR_REQUEST',
-    USER_UPDATE_ADMINISTRATOR_SUCCESS= 'USER_UPDATE_ADMINISTRATOR_SUCCESS',
-    USER_UPDATE_ADMINISTRATOR_ERROR= 'USER_UPDATE_ADMINISTRATOR_ERROR',
+    USER_UPDATE_OWNER_REQUEST = 'USER_UPDATE_OWNER_REQUEST',
+    USER_UPDATE_OWNER_SUCCESS= 'USER_UPDATE_OWNER_SUCCESS',
+    USER_UPDATE_OWNER_ERROR= 'USER_UPDATE_OWNER_ERROR',
     // Suppression des messages d'erreurs ou de réussite
-    USER_ADMINISTRATOR_HIDE_MESSAGES= 'USER_ADMINISTRATOR_HIDE_MESSAGES',
-    USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES = 'USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES'
+    USER_OWNER_HIDE_MESSAGES= 'USER_OWNER_HIDE_MESSAGES',
+    USER_OWNER_HIDE_POPUP_MESSAGES = 'USER_OWNER_HIDE_POPUP_MESSAGES'
     ;
 
 /**
@@ -29,17 +29,17 @@ export const
  * 
  * @param {object} user  
  */
-export const handleCreateAdministrator = (user) => {
+export const handleCreateOwner = (user) => {
     return function (dispatch) {
 
         dispatch({
-            type: USER_ADD_ADMINISTRATOR_REQUEST, 
+            type: USER_ADD_OWNER_REQUEST, 
         });
 
         api.createUtilisateur(
             user,
-            (dataUser) => { dispatch(handleCreateAdministratorSuccess(dataUser)) },
-            (error) => { dispatch(handleCreateAdministratorError(error)) }
+            (dataUser) => { dispatch(handleCreateOwnerSuccess(dataUser)) },
+            (error) => { dispatch(handleCreateOwnerError(error)) }
         )
     }
 }
@@ -47,9 +47,9 @@ export const handleCreateAdministrator = (user) => {
 /**
  * Fonction permettant de retourner l'action nécessaire à la prise en compte du succés de la création d'un utilisateur
  */
-export const handleCreateAdministratorSuccess = (dataUser) => {
+export const handleCreateOwnerSuccess = (dataUser) => {
     return {
-        type: USER_ADD_ADMINISTRATOR_SUCCESS,
+        type: USER_ADD_OWNER_SUCCESS,
         message: "L'utilisateur a été crée",
         user: dataUser
     }
@@ -60,9 +60,9 @@ export const handleCreateAdministratorSuccess = (dataUser) => {
  * 
  * @param {string} error le message d'erreur
  */
-export const handleCreateAdministratorError = (error) => {
+export const handleCreateOwnerError = (error) => {
     return {
-        type: USER_ADD_ADMINISTRATOR_ERROR,
+        type: USER_ADD_OWNER_ERROR,
         message: error
     }
 }
@@ -73,13 +73,13 @@ export const handleCreateAdministratorError = (error) => {
  * 
  * @param {object} data 
  */
-export const handleGetAdministrators = () => {
+export const handleGetOwners = () => {
 
-    console.log('handleGetAdministrators');
+    console.log('handleGetOwners');
 
     return function (dispatch, getState) {
         dispatch({
-            type: USER_GET_ADMINISTRATORS_REQUEST, 
+            type: USER_GET_OWNERS_REQUEST, 
         });
 
         //TODO check la vérification du token de l'utilisateur connecté
@@ -87,10 +87,10 @@ export const handleGetAdministrators = () => {
         api.getUtilisateurs(
             getState().connection.user.token,
             {
-                isAdmin:   1
+                isOwner:   1
             },
-            (data) => { dispatch(handleGetAdministratorSuccess(data)) },
-            (error) => { dispatch(handleGetAdministratorError(error)) }
+            (data) => { dispatch(handleGetOwnerSuccess(data)) },
+            (error) => { dispatch(handleGetOwnerError(error)) }
         )
     }
 }
@@ -100,9 +100,9 @@ export const handleGetAdministrators = () => {
  * 
  * @param {object} data La liste des administrateurs
  */
-export const handleGetAdministratorSuccess = (data) => {
+export const handleGetOwnerSuccess = (data) => {
     return {
-        type: USER_GET_ADMINISTRATORS_SUCCESS,
+        type: USER_GET_OWNERS_SUCCESS,
         users: data
     } 
 };
@@ -112,9 +112,9 @@ export const handleGetAdministratorSuccess = (data) => {
  * 
  * @param {string} error l'erreur remontée
  */
-export const handleGetAdministratorError = (error) => {
+export const handleGetOwnerError = (error) => {
     return {
-        type: USER_GET_ADMINISTRATORS_ERROR,
+        type: USER_GET_OWNERS_ERROR,
         message: error
     } 
 };
@@ -125,21 +125,21 @@ export const handleGetAdministratorError = (error) => {
  * 
  * @param {int} id l'identifiant de l'utilisateur à supprimer 
  */
-export const handleDeleteAdministrator = (id) => {
+export const handleDeleteOwner = (id) => {
 
-    console.log('handleDeleteAdministrator');
+    console.log('handleDeleteOwner');
 
     return function (dispatch, getState) {
         dispatch({
-            type: USER_DELETE_ADMINISTRATOR_REQUEST, 
-            administratorId: id,
+            type: USER_DELETE_OWNER_REQUEST, 
+            ownerId: id,
         });
 
         api.deleteUser(
             id,
             getState().connection.user.token,
-            (id) => { dispatch(handleRemoveAdministratorSuccess(id)) },
-            (error) => { dispatch(handleRemoveAdministratorError(error)) }
+            (id) => { dispatch(handleRemoveOwnerSuccess(id)) },
+            (error) => { dispatch(handleRemoveOwnerError(error)) }
         )
     }
 }
@@ -149,10 +149,10 @@ export const handleDeleteAdministrator = (id) => {
  * 
  * @param {int} id l'identifiant de l'utilisateur à supprimer 
  */
-export const handleRemoveAdministratorSuccess = (id) => {
+export const handleRemoveOwnerSuccess = (id) => {
     return {
-        type: USER_DELETE_ADMINISTRATOR_SUCCESS,
-        administratorId: id,
+        type: USER_DELETE_OWNER_SUCCESS,
+        ownerId: id,
         message: "Utilisateur Supprimé"
     }
 }
@@ -162,9 +162,9 @@ export const handleRemoveAdministratorSuccess = (id) => {
  * 
  * @param {string} error l'erreur remontée
  */
-export const handleRemoveAdministratorError = (error) => {
+export const handleRemoveOwnerError = (error) => {
     return {
-        type: USER_DELETE_ADMINISTRATOR_ERROR,
+        type: USER_DELETE_OWNER_ERROR,
         message: error
     }
 }
@@ -175,7 +175,7 @@ export const handleRemoveAdministratorError = (error) => {
  */
 export const handleHideMessages = () => {
     return {
-        type: USER_ADMINISTRATOR_HIDE_MESSAGES
+        type: USER_OWNER_HIDE_MESSAGES
     } 
 };
 
@@ -184,7 +184,7 @@ export const handleHideMessages = () => {
  */
 export const handleHideMessagesPopup = () => {
     return {
-        type: USER_ADMINISTRATOR_HIDE_POPUP_MESSAGES
+        type: USER_OWNER_HIDE_POPUP_MESSAGES
     } 
 };
 
@@ -194,19 +194,19 @@ export const handleHideMessagesPopup = () => {
  * 
  * @param {object} user  
  */
-export const handleUpdateAdministrator = (user) => {
+export const handleUpdateOwner = (user) => {
     return function (dispatch, getState) {
 
         dispatch({
-            type: USER_UPDATE_ADMINISTRATOR_REQUEST, 
+            type: USER_UPDATE_OWNER_REQUEST, 
             userId: user.userId
         });
 
         api.putUser(
             user,
             getState().connection.user.token,
-            (dataUser) => { dispatch(handleUpdateAdministratorSuccess(dataUser)) },
-            (error) => { dispatch(handleUpdateAdministratorError(error)) }
+            (dataUser) => { dispatch(handleUpdateOwnerSuccess(dataUser)) },
+            (error) => { dispatch(handleUpdateOwnerError(error)) }
         )
     }
 }
@@ -214,9 +214,9 @@ export const handleUpdateAdministrator = (user) => {
 /**
  * Fonction permettant de retourner l'action nécessaire à la prise en compte du succés de la création d'un utilisateur
  */
-export const handleUpdateAdministratorSuccess = (user) => {
+export const handleUpdateOwnerSuccess = (user) => {
     return {
-        type: USER_UPDATE_ADMINISTRATOR_SUCCESS,
+        type: USER_UPDATE_OWNER_SUCCESS,
         message: "L'utilisateur a été modifié",
         user: user
     }
@@ -227,9 +227,9 @@ export const handleUpdateAdministratorSuccess = (user) => {
  * 
  * @param {string} error le message d'erreur
  */
-export const handleUpdateAdministratorError = (error) => {
+export const handleUpdateOwnerError = (error) => {
     return {
-        type: USER_UPDATE_ADMINISTRATOR_ERROR,
+        type: USER_UPDATE_OWNER_ERROR,
         message: error
     }
 }

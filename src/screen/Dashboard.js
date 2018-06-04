@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { FontIcon, Card, CardTitle, CardText } from 'react-md';
-import AdminTemplate from './AdminTemplate';
+import AdminTemplate from '../components/AdminTemplate';
 
 
 

@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { MenuButton, FontIcon, ListItem } from 'react-md';
+import { MenuButton } from 'react-md';
 import NavLink from './NavLink';
 import React, { Component } from 'react';
 import { Layover } from 'react-md/lib/Helpers';

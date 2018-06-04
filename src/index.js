@@ -4,7 +4,7 @@ import { createStore, applyMiddleware } from 'redux'
 import registerServiceWorker from './registerServiceWorker';
 import WebFontLoader from 'webfontloader';
 import './css/index.css';
-import App from './components/App';
+import App from './App';
 import mainReducer from './reducers/mainReducer';
 import thunkMiddleware from 'redux-thunk'
 import logger from 'redux-logger';

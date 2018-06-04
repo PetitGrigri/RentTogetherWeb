@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { formDataToObject } from '../utils/convert.js'
-import AdminTemplate from './AdminTemplate';
+
 import { Button, Grid, Cell, DataTable, TableHeader, TableColumn, TableBody, TableRow, Card, TextField, CardTitle, FontIcon, SelectionControl, CardText, CircularProgress, DialogContainer } from 'react-md';
 import { 
     handleCreateAdministrator, 
@@ -12,8 +12,9 @@ import {
 } from "../actions/administrateurs";
 
 import { connect } from 'react-redux'
-import AlertMaterialize from './AlertMaterialize';
-import UserTableRow from './UserTableRow';
+import AdminTemplate from '../components/AdminTemplate'
+import AlertMaterialize from '../components/AlertMaterialize';
+import UserTableRow from '../components//UserTableRow';
 
 class GestionAdministrateurs extends Component {
 
@@ -29,6 +30,7 @@ class GestionAdministrateurs extends Component {
         }
     }
 
+
     /**
      * Méthode destinée à gérer l'envoie des données nécessaires à la création d'un administrateur
      * @param {event} event 
@@ -38,14 +40,18 @@ class GestionAdministrateurs extends Component {
         event.preventDefault();
         //récupération des données du formulaire et conversion en objet
         var dataFormulaire = new FormData(event.target);
-        var user = formDataToObject(dataFormulaire);
+        var user = Object.assign(formDataToObject(dataFormulaire), {
+            isAdmin: 1,
+        });
         
         //envoie des données 
         this.props.handleCreateAdministrator(user);
     }
 
     componentDidMount() {
-        this.props.handleGetAdministrators();
+        if (this.props.users.length <= 0) {
+            this.props.handleGetAdministrators();
+        }
     }
 
     /**
@@ -68,7 +74,7 @@ class GestionAdministrateurs extends Component {
     }
 
     deleteAdministrator(id) {
-        console.log(id);
+
         this.props.handleDeleteAdministrator(id);
     }
 
@@ -202,8 +208,9 @@ class GestionAdministrateurs extends Component {
                                     label="Administrateur"
                                     name="isAdmin"
                                     value={1}
-                                    defaultChecked
-                                    />
+                                    checked={true}
+                                    disabled
+                                />
                             </Cell>
                             <Cell size={12} desktopSize={4}>
                                 <SelectionControl
@@ -233,6 +240,7 @@ class GestionAdministrateurs extends Component {
                     </form>
                 </DialogContainer>
             </AdminTemplate>
+
         );
     }
 }

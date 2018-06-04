@@ -62,6 +62,7 @@ class AdminTemplate extends Component {
     constructor(props){
         super(props);
 
+
         this.state = {
             currentItem : navItems.filter(item => item.to === this.props.location.pathname ? true : false)[0] || ''
         }
@@ -71,6 +72,9 @@ class AdminTemplate extends Component {
         document.title = this.state.currentItem.title;
     }
 
+    addToast () {
+        console.log("coucou");
+    }
 
     render() {
         return (
@@ -84,7 +88,9 @@ class AdminTemplate extends Component {
                 desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
                 toolbarActions={<UserActionMenu />}
                 >
-                {this.props.children?this.props.children:null}
+                { this.props.children 
+                    ? this.props.children
+                    : null }
             </NavigationDrawer>
         );
     }

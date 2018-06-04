@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import AdminTemplate from './AdminTemplate';
+import AdminTemplate from '../components/AdminTemplate';
 
 class Locations extends Component {
     render() {
