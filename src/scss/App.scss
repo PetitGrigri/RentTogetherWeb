@@ -7,3 +7,13 @@
 .App-intro {
   font-size: large;
 }
+
+/** Plus lié au Chat : à déplacer **/
+.full_height {
+  width: 100%;
+  height: calc(100vh - 64px) !important;
+}
+
+.full_height >* {
+  overflow: auto;
+}

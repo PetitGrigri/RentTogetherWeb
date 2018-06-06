@@ -1,0 +1,45 @@
+@import 'globals';
+
+.conversations {
+    height: 100%;
+    margin:0px;
+    background: $md-blue-grey-100;
+    float:left;
+    width: 400px;
+}
+.conversations .md-list {
+    padding: 0px;
+}
+.conversations .md-list-item, .conversations .md-subheader {
+    background: $md-blue-grey-100;
+}
+
+.conversation_messages {
+    height: 100%;
+    margin:0px;
+    background: $md-blue-grey-50;
+    width:calc(100% - 400px);
+    overflow: hidden;
+}
+
+.message_box {
+    background-color: #ccc;
+    position: relative;
+    padding:0;
+    margin:0;
+}
+
+.message_box .input {
+    margin-right:100px;
+    padding: 8px;
+}
+
+.message_box .button {
+    width: 100px;
+    position: absolute;
+    top:0px;
+    right:0px;
+    text-align:center;
+    height:100%;
+    padding:16px;
+}

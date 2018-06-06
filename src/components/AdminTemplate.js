@@ -4,6 +4,7 @@ import NavLink from './NavLink';
 import UserActionMenu from './UserActionMenu';
 import { withRouter } from 'react-router'
 import { connect } from 'react-redux'
+import '../css/AdminTemplate.css'
 
 
 const navItems = [
@@ -62,7 +63,6 @@ class AdminTemplate extends Component {
     constructor(props){
         super(props);
 
-
         this.state = {
             currentItem : navItems.filter(item => item.to === this.props.location.pathname ? true : false)[0] || ''
         }
@@ -70,10 +70,6 @@ class AdminTemplate extends Component {
 
     componentDidMount() {
         document.title = this.state.currentItem.title;
-    }
-
-    addToast () {
-        console.log("coucou");
     }
 
     render() {
@@ -87,6 +83,7 @@ class AdminTemplate extends Component {
                 )}
                 desktopDrawerType={NavigationDrawer.DrawerTypes.PERSISTENT_MINI}
                 toolbarActions={<UserActionMenu />}
+                className="admin_template"
                 >
                 { this.props.children 
                     ? this.props.children

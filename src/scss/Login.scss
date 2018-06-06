@@ -1,0 +1,14 @@
+.login {
+    margin: 0;
+    position: relative;
+    background-color: #ccc;
+    background: url('../img/cover.jpg');
+    height:100vh;
+    -webkit-background-size: cover;
+        -moz-background-size: cover;
+        -o-background-size: cover;
+            background-size: cover;	
+    
+    display:flex;
+    align-items: center;
+}

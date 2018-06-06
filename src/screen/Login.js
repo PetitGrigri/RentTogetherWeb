@@ -3,7 +3,8 @@ import { Card, CardTitle, Button, CardText, Media, MediaOverlay, TextField, Font
 import { connect } from 'react-redux'
 import { handleSignIn, handleHideError } from '../actions/connection.js'
 import AlertMaterialize from '../components/AlertMaterialize.js';
-
+import  '../css/Login.css';
+import banniere from '../img/banniere.jpg';
 
 class Login extends Component {
     //variables destinées à recevoir le contenu du login et du password
@@ -34,11 +35,11 @@ class Login extends Component {
 
     render() {
         return (
-            <div className="md-grid">
+            <div className="md-grid login">
 
                 <Card className="cards__example md-block-centered" style={{width:"400px"}}>
                     <Media>
-                        <img src="img/banniere.jpg" alt="RentTogether"/>
+                        <img src={banniere} alt="RentTogether"/>
                         <MediaOverlay>
                             <CardTitle title="RentTogether" subtitle="Connexion" />
                         </MediaOverlay>
