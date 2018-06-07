@@ -32,3 +32,21 @@ export const urlWithParams = (url, objectParamas) => {
     //retour de l'url avec les paramètrs (quand il y en a)
     return (stringParams.length > 0) ? url + "?" + stringParams : url;
 }
+
+export const convertStringToDateFR = (dateString) => {
+    const optionsDateTimeFormat = {
+        year: "numeric", 
+        month: "numeric", 
+        day: "numeric",
+        hour: "numeric", 
+        minute: "numeric", 
+        second: "numeric",
+        hour12: false
+    };
+
+    //parsing de la date 
+    let date = Date.parse(dateString);
+
+    //retour de la date formatée
+    return Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
+}

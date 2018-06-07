@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { TableColumn, TableRow, FontIcon, Button, EditDialogColumn } from 'react-md';
 import LoadingFontIcon from './LoadingFontIcon';
-
+import { convertStringToDateFR } from '../utils/convert.js';
 
 class UserTableRow extends Component {
 
@@ -86,20 +86,7 @@ class UserTableRow extends Component {
 
 
     render() {
-        // Objet contenant la configuration de la date de création qui sera utilisé lors de l'affichage
-        const optionsDateTimeFormat = {
-            year: "numeric", 
-            month: "numeric", 
-            day: "numeric",
-            hour: "numeric", 
-            minute: "numeric", 
-            second: "numeric",
-            hour12: false
-        };
-
-        //parsing de la date de créaton et formatage
-        let date = Date.parse(this.props.user.createDate);
-        let dateFormat = Intl.DateTimeFormat('fr-FR', optionsDateTimeFormat).format(date);
+        let dateFormat = convertStringToDateFR(this.props.user.createDate);
 
         let loadingDeleteId = "loading-delete-"+this.props.user.userId;
         let loadingUpdateId = "loading-edit-"+this.props.user.userId;
