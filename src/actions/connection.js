@@ -31,12 +31,10 @@ export const handleSignIn = (login, password) => {
 
 /**
  * Méthode permettant de retourner l'action nécessaire à redux pour connaitre l'utilisateur connecté
- * @param {object} data 
+ * @param {object} dataUser 
  */
-export const handleSignInSuccess = (data) => {
-    //création d'un objet user sans son mot de passe
-    var dataUser = Object.assign({}, data);
-    delete dataUser.password;
+export const handleSignInSuccess = (dataUser) => {
+
     //retour de l'action
     return {
         type: SIGN_IN_SUCESS,

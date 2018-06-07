@@ -1,5 +1,6 @@
 import { empty } from '../utils/check.js';
 import { urlWithParams } from '../utils/convert.js';
+import { cleanUser, cleanUsersList } from '../utils/clean.js';
 
 const url = process.env.REACT_APP_API_URL;
 
@@ -33,7 +34,7 @@ export const connectionAPI =  (login, password, callBackOk, callBackError) => {
             //tentative de connexion d'un administrateur :
             if (!empty(dataUser.token) && !empty(dataUser.email) && !empty(dataUser.firstName) && !empty(dataUser.lastName) && !empty(dataUser.isAdmin)) {
                 if (dataUser.isAdmin === 1) {
-                    callBackOk(dataUser);
+                    callBackOk(cleanUser(dataUser));
                 } else {
                     throw Error("Vous n'êtes pas autorisez à accéder à l'application.");
                 }
@@ -126,7 +127,7 @@ export const getUtilisateurs = function(token, filter, callBackOk, callBackError
             }
         })
         .then(dataAdministrators => {
-            callBackOk(dataAdministrators);
+            callBackOk(cleanUsersList(dataAdministrators));
         })
         .catch(error => {
             callBackError(error.message);
