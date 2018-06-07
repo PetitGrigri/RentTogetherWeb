@@ -105,8 +105,6 @@ export const getUtilisateurs = function(token, filter, callBackOk, callBackError
         'Content-Type':'application/json',
         'Authorization':'Bearer '+token
     });
-    
-    console.log(urlWithParams(url+ "/Users", filter));
 
 
     //les paramêtres de la requête
@@ -117,7 +115,7 @@ export const getUtilisateurs = function(token, filter, callBackOk, callBackError
         cache: 'default'
     };
 
-    fetch(url+ "/Users", options)
+    fetch(urlWithParams(url+ "/Users", filter), options)
         .then(response => {
             if (response.ok === true) {
                 return response.json().catch(error => {

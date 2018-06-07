@@ -87,7 +87,7 @@ export const handleGetAdministrators = () => {
         api.getUtilisateurs(
             getState().connection.user.token,
             {
-                isAdmin:   1
+                $filter:    "isAdmin eq 1"
             },
             (data) => { dispatch(handleGetAdministratorSuccess(data)) },
             (error) => { dispatch(handleGetAdministratorError(error)) }

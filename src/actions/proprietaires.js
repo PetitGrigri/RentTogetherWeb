@@ -87,7 +87,7 @@ export const handleGetOwners = () => {
         api.getUtilisateurs(
             getState().connection.user.token,
             {
-                isOwner:   1
+                $filter:    "isOwner eq 1"
             },
             (data) => { dispatch(handleGetOwnerSuccess(data)) },
             (error) => { dispatch(handleGetOwnerError(error)) }

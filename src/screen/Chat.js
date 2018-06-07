@@ -120,12 +120,13 @@ class Chat extends Component {
                                 <TextField 
                                     placeholder="Message"
                                     rows={2}
+                                    maxRows={6}
                                     onChange={this.onChangeMessage}
                                     value={this.state.message}
                                 />
                             </div>
                             <div className="button">
-                                <Button floating primary >home</Button>
+                                <Button floating primary >send</Button>
                             </div>
                         </div>
                     </div>

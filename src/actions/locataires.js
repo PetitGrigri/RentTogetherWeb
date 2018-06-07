@@ -87,7 +87,7 @@ export const handleGetRenters = () => {
         api.getUtilisateurs(
             getState().connection.user.token,
             {
-                isRenter:   1
+                $filter:    "isRoomer eq 1"
             },
             (data) => { dispatch(handleGetRenterSuccess(data)) },
             (error) => { dispatch(handleGetRenterError(error)) }
