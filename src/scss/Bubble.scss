@@ -4,9 +4,8 @@ $rent-together-bubble-triangle:16px;
 
 /* Style de la bulle */
 .bubble {
-    clear: both;
     position:relative;
-    max-width: 80%;
+    max-width: calc(80% - #{$md-avatar-size});
     padding: $md-grid-phone-margin $md-grid-phone-margin 0 $md-grid-phone-margin;
     margin: $md-grid-phone-margin;
     @include md-box-shadow(3);
@@ -19,6 +18,17 @@ $rent-together-bubble-triangle:16px;
 .bubble.right {
     background: $md-primary-color;
     float: right;
+}
+
+.avatar_wrapper.left {
+    float: left;
+    margin: $md-grid-phone-margin;
+    width: $md-avatar-size;
+}
+.avatar_wrapper.right {
+    float: right;
+    margin: $md-grid-phone-margin;
+    width: $md-avatar-size;
 }
 
 /* Style du contenu de la bulle */
@@ -69,4 +79,9 @@ $rent-together-bubble-triangle:16px;
     top:  0px;
     border: $rent-together-bubble-triangle solid;
     border-color: $md-primary-color transparent transparent transparent;
+}
+
+.bubble_clear {
+    clear: both;
+    content: ' ';
 }

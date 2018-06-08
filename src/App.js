@@ -25,7 +25,7 @@ const App = ( {store, ...rest } ) => {
         <Provider store={store}>
             <BrowserRouter>
                 <Switch>
-                    <Route exact path="/" component={Login} />
+                    <Route exact path="/" component={Chat} />
                     <PrivateRoute path="/dashboard" component={Dashboard} />
                     <PrivateRoute path="/locataires" component={GestionLocataires}  />
                     <PrivateRoute path="/proprietaires"  component={GestionProprietaires}  />
