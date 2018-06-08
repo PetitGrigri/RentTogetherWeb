@@ -4,7 +4,6 @@ import { TextField, Button } from 'react-md';
 import '../css/Chat.css';
 import BubblesList from '../components/BubblesList';
 import ConversationsList from '../components/ConversationsList';
-import PropTypes from 'prop-types';
 
 //fake data message
 const messages= [{
@@ -44,10 +43,56 @@ const messages= [{
     avatarImage :       "https://randomuser.me/api/portraits/thumb/men/76.jpg",
     avatarInitials :    "CC",
 },
+{
+    messageId:          2,
+    content :           "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte",
+    date :              "05/08/2017 à 10h38",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/women/10.jpg",
+    avatarInitials :    "BP",
+    right:              true,
+},
+{
+    messageId:          3,
+    content :           "Un autre message de test",
+    date :              "05/08/2017 à 10h39",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/men/76.jpg",
+    avatarInitials :    "CC",
+},
+{
+    messageId:          4,
+    content :           "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte",
+    date :              "05/08/2017 à 10h38",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/women/10.jpg",
+    avatarInitials :    "BP",
+    right:              true,
+},
+{
+    messageId:          5,
+    content :           "Un autre message de test",
+    date :              "05/08/2017 à 10h39",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/men/76.jpg",
+    avatarInitials :    "CC",
+},
+{
+    messageId:          6,
+    content :           "Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un peintre anonyme assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte",
+    date :              "05/08/2017 à 10h38",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/women/10.jpg",
+    avatarInitials :    "BP",
+    right:              true,
+},
+{
+    messageId:          7,
+    content :           "Un autre message de test",
+    date :              "05/08/2017 à 10h39",
+    avatarImage :       "https://randomuser.me/api/portraits/thumb/men/76.jpg",
+    avatarInitials :    "CC",
+},
 ];
 
+//fake data conversation
 const conversations =[{
-    conversationId :    9876789,
+    conversationId :    1,
     lastMessageContent: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant ",
     lastMessageDate:    "20/05/2017",
     allRead:            false,
@@ -58,7 +103,7 @@ const conversations =[{
     active:             true,
 },
 {
-    conversationId :    9876789,
+    conversationId :    2,
     lastMessageContent: "Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant ",
     lastMessageDate:    "20/05/2015",
     allRead:            true,
@@ -76,33 +121,54 @@ class Chat extends Component {
         super(props);
         this.state = {
             message: '',
-            messageBoxHeight: 80
+            messageBoxHeight: 80,
+            loading: false,
         };
         this.messageWrapper = React.createRef();
+        this.bubblesWrapper = React.createRef();
     }
 
-    onChangeMessage = (value, event) => {
+    onChangeMessageContent = (value, event) => {
         this.setState({
             message: value,
             messageBoxHeight: this.messageWrapper.current.clientHeight
         });
     }
 
+    onScrollConversationBubbles = (event) => {
+        /*console.log(this.bubblesWrapper.current);
+
+        console.log("scrollTop", this.bubblesWrapper.current.scrollTop);
+        console.log("clientHeight",this.bubblesWrapper.current.clientHeight);
+        console.log("scrollHeight", this.bubblesWrapper.current.scrollHeight);*/
+
+        if ((this.bubblesWrapper.current.scrollTop === 0) && (!this.state.loading)) {
+            this.setState({
+                loading : true
+            });
+            console.log("loading in progress");
+        }
+    }
+
+    componentDidMount () {
+
+        this.bubblesWrapper.current.scrollTop= this.bubblesWrapper.current.scrollHeight -this.bubblesWrapper.current.clientHeight;
+    }
+
+
     render() {
         let divInputHeight= "calc(100% - "+this.state.messageBoxHeight+"px)";
         let messageBoxHeight = this.state.messageBoxHeight+"px";
-
-        console.log(divInputHeight, messageBoxHeight);
 
         return (
             <AdminTemplate>
                 <div  className="full_height">
                     <div className="conversations md-paper md-paper--2 ">
-                        <ConversationsList conversations={conversations} />
+                        <ConversationsList conversations={conversations} load={false}/>
                     </div>
                     <div className="conversation_messages">
-                        <div style={{"height":divInputHeight, "overflow":"auto"}}>
-                            <BubblesList messages={messages} />
+                        <div style={{ "height":divInputHeight }} className="conversation_bubbles"  ref={this.bubblesWrapper} onScroll={this.onScrollConversationBubbles}>
+                            <BubblesList messages={messages} loading={this.state.loading}/>
                         </div>
                         <div className="message_box" style={{"height":messageBoxHeight}}>
                             <div className="input" ref={this.messageWrapper}>
@@ -111,7 +177,7 @@ class Chat extends Component {
                                     placeholder="Message"
                                     rows={2}
                                     maxRows={15}
-                                    onChange={this.onChangeMessage}
+                                    onChange={this.onChangeMessageContent}
                                     value={this.state.message}
                                 />
                             </div>
